@@ -92,7 +92,7 @@ a:visited {
 #slide1 h1 {
 	font-size: 3.8em;
 	letter-spacing: -3px;
-	line-height: 60px;
+	line-height: 0px;
 	/*color:#8a8683;*/
 	color: #f68f67;
 	font-weight: 700;
@@ -171,7 +171,7 @@ a:visited {
 #slide4 h1 {
 	font-size: 3.8em;
 	letter-spacing: -3px;
-	line-height: 240%;
+	line-height: 210%;
 	color:#ffffff;
 	font-weight: 700;
 }
