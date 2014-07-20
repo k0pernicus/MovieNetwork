@@ -2,10 +2,47 @@
 For all
 */
 
-input {
+form {
 
 	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
 	margin-left: 10px;
+	font-size: 20px;
+
+}
+
+input[type=text] {
+
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	font-size: 20px;
+
+}
+
+input[type=submit] {
+
+
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	font-size: 20px;
+
+}
+
+/*
+Only supported with webkit browsers...
+Solution: JQUERY
+*/
+::-webkit-input-placeholder {
+   text-align: center;
+}
+
+a {
+
+	text-decoration: none;
+	color: blue;
+	font-weight: bold;
 
 }
 
@@ -93,19 +130,36 @@ input#movie_searched {
 
 	width:400px;
 	height:35px;
-	padding-right : 5px;
 	border-style: solid;
 
 }
 
-button#input_movie {
+button#button_input_movie {
 
-	padding: 13.5px 27px;
+   padding: 13.5px 27px;
    -webkit-border-radius: 8px;
    -moz-border-radius: 8px;
    border-radius: 8px;
    -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
    -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   font-size: 20px;
+
+}
+
+#form_input_movie {
+
+	display: none;
+	margin-top: 20px;
+
+}
+
+#form_input_movie input[type="text"] {
+
+	width:300px;
+	height:35px;
+	padding-top: 10px;
+	margin-left: -8px;
+	border-style: solid;
 
 }
 
