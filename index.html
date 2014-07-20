@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<title>
+			MovieNetwork
+		</title>
+
+		<!--
+		CSS
+		-->
+		<link rel="stylesheet"  type="text/css" href="CSS/all.css">
+
+		<!--
+		JS
+		-->
+
+	</head>
+
+	<body>
+
+		<!--
+			1rst div: Parallax effect (background)
+			2nd div (slide_XXX): Text for the previous div
+		-->
+
+		<div id="submit_movie">
+
+			<div class="slide_submit_movie">
+
+				<div id="slide_title">
+					Welcome to MovieNetwork!
+				</div>
+
+				<div id="slide_text_center">
+
+					MovieNetwork is a simple tool which allows you to have some informations about movies which have similarities with movies you like.
+					</br>
+					You can make a search with the form, below.
+
+				</div>
+
+				<center>
+
+					<form>
+						<input type="text" id="movie_searched" name="movie_searched" placeholder="Search similarities from movie"/>
+
+						</br>
+
+						Display: 
+
+						<!--
+						Graph or list results
+						-->
+						<input type="radio" name="display_results" value="Graph">Graph
+						<input type="radio" name="display_results" value="List">List
+
+						<!--
+						Submit button hidden -> Enter key to submit
+						-->
+						<input type="submit" style="display:none"/>
+					</form>
+
+				</center>
+
+				<div id="slide_text_center">
+
+					We don't have your movie in our database? Please, give it to us!
+
+				</div>
+
+				<center>
+
+					<button type="button" type="button" id="input_movie" name="input_movie">
+						I want to input my movie!
+					</button>
+
+				</center>
+
+			</div>
+
+		</div>
+
+		<div id="project_presentation">
+
+			<div class="slide_project_presentation">
+
+				<div id="slide_title">
+					Presentation of the project
+				</div>
+
+				<div id="slide_text_center">
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div id="help_us">
+
+			<div class="slide_help_us">
+
+				<div id="slide_title">
+					Help us!
+				</div>
+
+				<div id="slide_text_center">
+
+					MovieNetwork is powered with HTML5, CSS3, JS and PHP.
+					</br>
+					You can help us by promote the tool, or develop some code.
+					</br>
+					Project hosted on <a href="https://github.com/WebTogz/MovieNetwork">Github</a>.
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div id="contacts">
+
+			<div class="slide_contacts">
+
+				<div id="slide_title">
+					Contacts
+				</div>
+
+				<div id="slide_text_left">
+
+					<!--
+					<li>...</li> -> 1 contact
+					-->
+
+					<ul>
+						<li>
+							<b>Carette Antonin</b>
+							</br>
+							<b>Mail</b>: antonin[dot]carette[at]gmail[dot]com
+							</br>
+							<a href="https://github.com/WebTogz">Github</a>
+						</li>
+					</ul>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</body>
+
+</html>
