@@ -11,6 +11,8 @@ Programming languages
 
 HTML5, CSS3, Less, Javascript, PHP, MySQL.
 
+Please to install a PHP server, like [MAMP](http://www.mamp.info/en/).
+
 Libraries
 ---------
 
