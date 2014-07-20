@@ -1,0 +1,114 @@
+/*
+For all
+*/
+
+input {
+
+	text-align: center;
+	margin-left: 10px;
+
+}
+
+/*
+Head
+*/
+
+/*
+Body
+*/
+#submit_movie, #project_presentation, #help_us, #contacts {
+
+	padding-top:100px;
+
+	padding-top: 20px;
+	padding-right: 20px;
+	padding-bottom: 20px;
+	padding-left: 20px;
+
+	margin-right: 20px;
+	margin-left: 20px;
+
+}
+
+#submit_movie {
+
+	background-color: white;
+
+}
+
+#project_presentation {
+
+	background-color: cyan;
+
+}
+
+#help_us {
+
+	background-color: red;
+
+}
+
+#contacts {
+
+	background-color: green;
+
+}
+
+#slide_title {
+
+	font-weight: bold;
+	font-size: 40px;
+	text-align: center;
+
+	margin-top: 30px;
+	margin-bottom: 30px;
+	
+}
+
+#slide_text_center {
+
+	font-size: 20px;
+	text-align: center;
+
+	margin-top: 20px;
+	margin-bottom: 20px;
+
+	font-family: sans-serif;
+
+}
+
+#slide_text_left {
+
+	font-size: 20px;
+	text-align: left;
+
+	margin-top: 20px;
+	margin-bottom: 20px;
+
+	font-family: sans-serif;
+
+}
+
+input#movie_searched {
+
+	width:400px;
+	height:35px;
+	padding-right : 5px;
+	border-style: solid;
+
+}
+
+button#input_movie {
+
+	padding: 13.5px 27px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+
+}
+
+/*
+Foot
+*/
