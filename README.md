@@ -6,8 +6,6 @@ What is that thing?
 
 **MovieNetwork** is a web tool to display (by a list, or by a graph) all movies you're likely to see.
 
-[Access to beta test](http://www.antonin-carette.fr/MovieNetworkBeta).
-
 Programming languages
 ---------------------
 
