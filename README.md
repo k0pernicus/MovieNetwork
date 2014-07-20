@@ -9,25 +9,23 @@ What is that thing?
 Programming languages
 ---------------------
 
-HTML5, CSS3, Less, Javascript, PHP, MySQL.
-
-Please to install a PHP server, like [MAMP](http://www.mamp.info/en/).
+HTML5, CSS3, Less, Javascript.
 
 Libraries
 ---------
 
-JQuery, D3JS.
+JQuery, CoolKitten, PureCSS.
 
 TODO
 ----
 
-*	Full forms
-*	Database of movies
+*	Full forms : **CURRENTLY**
+*	Database of movies : **CURRENTLY**
 *	Algorithm of similarities
 *	Display results (graph & list)
-*	Design (Responsive, Parallax & beautiful)
+*	Design (Responsive, Parallax & beautiful) : **DONE**
 *	Put online
-*	Drink some coke
+*	Drink some coke : **ALLWAYS (AND FOREVER)**
 
 License
 -------
