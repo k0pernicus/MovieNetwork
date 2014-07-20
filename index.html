@@ -12,6 +12,12 @@
 		CSS
 		-->
 		<link rel="stylesheet"  type="text/css" href="CSS/all.css">
+		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css"
+
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="CSS/normalize.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="CSS/grid.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="CSS/style.css" type="text/css" media="screen">
 
 		<!--
 		JS
@@ -27,138 +33,164 @@
 			1rst div: Parallax effect (background)
 			2nd div (slide_XXX): Text for the previous div
 		-->
+		<div class="menu">
 
-		<div id="submit_movie">
+			<div class="container clearfix">
 
-			<div class="slide_submit_movie">
-
-				<div id="slide_title">
-					Welcome to MovieNetwork!
-				</div>
-
-				<div id="slide_text_center">
-
-					MovieNetwork is a simple tool which allows you to have some informations about movies which have similarities with movies you like.
-					</br>
-					You can make a search with the form, below.
-
-				</div>
-
-				<center>
-
-					<form method="POST" id="form_search_movie" action="PHP/treat_movie.php">
-						<input type="text" id="movie_searched" name="movie_searched" placeholder="Search similarities from a movie"/>
-
-						</br>
-
-						Display: 
-
-						<!--
-						Graph or list results
-						-->
-						<input type="radio" name="display_results" value="Graph">Graph
-						<input type="radio" name="display_results" value="List">List
-
-						<!--
-						Submit button hidden -> Enter key to submit
-						-->
-						<input type="submit" style="display:none"/>
-					</form>
-
-				</center>
-
-				<div id="slide_text_center">
-
-					We don't have your movie in our database? Please, give it to us!</br>
-
-				</div>
-
-				<center>
-
-					<button type="button" type="button" id="button_input_movie" name="input_movie" onclick="hideAndDisplayNewMovie()">
-						I want to input my movie!
-					</button>
-
-					<form id="form_input_movie" method="POST" action="PHP/input_movie.php">
-						<input type="text" name="movie_name" placeholder="Name"/></br>
-						<input type="text" name="movie_director" placeholder="Director"/></br>
-						<input type="text" name="movie_date" placeholder="Date"/></br>
-						<input type="submit" name="send_data" value="Send data"/></br>
-					</form>
-
-				</center>
-
-			</div>
-
-		</div>
-
-		<div id="project_presentation">
-
-			<div class="slide_project_presentation">
-
-				<div id="slide_title">
-					Presentation of the project
-				</div>
-
-				<div id="slide_text_center">
-
-				</div>
-
-			</div>
-
-		</div>
-
-		<div id="help_us">
-
-			<div class="slide_help_us">
-
-				<div id="slide_title">
-					Help us!
-				</div>
-
-				<div id="slide_text_center">
-
-					MovieNetwork is powered with HTML5, CSS3, JS and PHP.
-					</br>
-					You can help us by promote the tool, or develop some code.
-					</br>
-					Project hosted on <a href="https://github.com/WebTogz/MovieNetwork">Github</a>.
-
-				</div>
-
-			</div>
-
-		</div>
-
-		<div id="contacts">
-
-			<div class="slide_contacts">
-
-				<div id="slide_title">
-					Contacts
-				</div>
-
-				<div id="slide_text_left">
-
-					<!--
-					<li>...</li> -> 1 contact
-					-->
-
-					<ul>
-						<li>
-							<b>Carette Antonin</b>
-							</br>
-							<b><a href="mailto:antonin.carette@gmail.com">Send e-mail</a></b>
-							</br>
-							<a href="https://github.com/WebTogz">Github</a>
-						</li>
+				<div id="nav_center" class="grid_9 omega">
+					<ul class="navigation">
+						<li data-slide="1">Search & submit a movie</li>
+						<li data-slide="2">Presentation</li>
+						<li data-slide="3">Help us!</li>
+						<li data-slide="4">Credits</li>
 					</ul>
-
 				</div>
 
 			</div>
 
 		</div>
+
+	<div class="slide" id="slide1" data-slide="1" data-stellar-background-ratio="0.5">
+		<div class="container clearfix">
+
+			<div id="content" class="grid_12">
+
+				<h1><center>
+					Welcome to MovieNetwork!
+				</center></h1>
+
+				<p>
+					<h3>MovieNetwork is a simple tool which allows you to have some informations about movies which have similarities with movies you like.</h3>
+				</p>
+					<form class="pure-form" method="POST" id="form_search_movie" action="PHP/treat_movie.php">
+						<fieldset>
+							<legend><h3>Search similarities from a movie you like</h3></legend>
+							<br/>
+							<br/>
+							<center>
+								<input type="text" id="movie_searched" name="movie_searched" placeholder="Enter the name of a movie"/>
+								</br>
+								</br>
+
+								<b>Results display:</b> 
+
+								<!--
+								Graph or list results
+								-->
+								<input type="radio" name="display_results" value="Graph" checked="checked"> Graph
+
+								<input type="radio" name="display_results" value="List"> List
+
+								<!--
+								Submit button hidden -> Enter key to submit
+								-->
+								<input type="submit" style="display:none"/>
+							</center>
+						</fieldset>
+					</form>
+
+				<br/>
+
+				<hr>
+
+				<br/>
+
+				<p>
+					We don't have your favourite movie in our database? <h2><a href="">Please, give it to us!</a></h2></br>
+				</p>
+
+			</div>
+
+		</div>
+	</div>
+
+	<div class="slide" id="slide2" data-slide="2" data-stellar-background-ratio="0.5">
+		<div class="container clearfix">
+
+			<div id="content" class="grid_12">
+
+				<h1>
+					Presentation
+				</h1>
+
+				<p>
+					Don't you have allready search about a movie based by movies you really love?
+				</p>
+				<p>
+					Don't you have allready search about a movie based by your preferences?
+				</p>
+				<p>
+					Stop it! <b>MovieNetwork</b> is here to help you about these searches.
+				</p>
+				<p>
+					The principle is really simple: you really like a movie, and wanna see an other which look like at this one. No problem! Put the name of your favorite film in the input, and our algorithms will output all the movies which seems to like you. 
+				</p>
+				<p>
+					<b>MovieNetwork</b> contains a big database of movies. Also, if you don't find the movie you like the most, you can upload a small form about it!
+				</p>
+
+			</div>
+
+		</div>
+	</div>
+
+	<div class="slide" id="slide3" data-slide="3" data-stellar-background-ratio="0.5">
+		<div class="container clearfix">
+
+			<div id="content" class="grid_12">
+
+				<h1>
+					Help us!
+				</h1>
+
+					<p>You can help us by promote the tool, or develop some code.</p>
+					<p>The project is host on <a href="https://github.com/WebTogz/MovieNetwork">Github</a>.</p>
+
+			</div>
+
+		</div>
+	</div>
+
+	<div class="slide" id="slide4" data-slide="4" data-stellar-background-ratio="0.5">
+		<div class="container clearfix">
+
+			<div id="content" class="grid_12">
+
+				<h1>
+					Credits
+				</h1>
+					
+				<ul>
+					<li>
+						<b>Carette Antonin</b>
+						</br>
+						<b><a href="mailto:antonin.carette@gmail.com">Send e-mail</a></b>
+						</br>
+						<b><a href="http://www.antonin-carette.fr">Website</a></b>
+						</br>
+						<b><a href="https://www.github.com/WebTogz">Github</a></b>
+					</li>
+				</ul>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<center>
+	<p>
+		This website is build on <b>HTML5</b>, <b>CSS3</b>, <b>Javascript</b>, <b>PureCSS</b>, <b>Cool Kitten</b>, <b>D3JS</b> and <b>jQuery</b>.
+		</br>
+		July 2014
+	</p>
+	</center>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="JS/jquery.stellar.min.js"></script>
+	<script type="text/javascript" src="JS/waypoints.min.js"></script>
+	<script type="text/javascript" src="JS/jquery.easing.1.3.js"></script>
+	<script type="text/javascript" src="JS/scripts.js"></script>
 
 	</body>
 
