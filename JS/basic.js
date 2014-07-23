@@ -1,7 +1,7 @@
 /*
 Function which allows to hide or display the input_movie form
 */
-function hideAndDisplayNewMovie() {
+function hide_and_display_new_movie () {
 
 	var form_input_movie = document.getElementById("form_input_movie");
 
