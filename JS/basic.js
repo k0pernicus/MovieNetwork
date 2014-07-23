@@ -90,10 +90,12 @@ Function which allows to validate form, search in the OMDB database the movie, a
 */
 function search_movie () {
 
+	var api_key = document.forms["form_search_movie"]["user_api_key"].value;
+
 	var movie = document.forms["form_search_movie"]["movie_searched"].value;
 
-	if (validate_form(movie)) {
-		var request = send_search_omdb(movie);
+	if (validate_form(movie, api_key)) {
+		var request = send_search_omdb(movie, api_key);
 		process_search_omdb(request);
 	}
 }
