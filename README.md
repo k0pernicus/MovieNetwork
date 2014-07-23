@@ -4,17 +4,21 @@ MovieNetwork
 What is that thing?
 -------------------
 
-**MovieNetwork** is a web tool to display (by a list, or by a graph) all movies you're likely to see.
+**MovieNetwork** is a web tool to display (by a **list**, or by a **graph**) all movies you're likely to see.
 
 Programming languages
 ---------------------
 
 HTML5, CSS3, Less, Javascript.
 
+Next: Ajax, PHP, MySQL.
+
 Libraries
 ---------
 
 JQuery, CoolKitten, PureCSS.
+
+Next: D3JS.
 
 TODO
 ----
@@ -24,8 +28,9 @@ TODO
 *	Algorithm of similarities
 *	Display results (graph & list)
 *	Design (Responsive, Parallax & beautiful) : **DONE**
+*	Ajax script to display some available names to the user, when he write the name of the movie in the search form
 *	Put online
-*	Drink some coke : **ALLWAYS (AND FOREVER)**
+*	Drink some coke : **ALLWAYS (AND FOREVER <3)**
 
 License
 -------
