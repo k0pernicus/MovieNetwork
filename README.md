@@ -23,7 +23,7 @@ TODO
 
 *	Design (Responsive, Parallax & beautiful) : **DONE**
 *	Ajax script to display some available names to the user, when he write the name of the movie in the search form : **DONE**
-*	Database of movies : usage of omdbapi ([http://www.omdbapi.org](http://www.omdbapi.org))
+*	Database of movies : usage of omdbapi ([http://www.omdbapi.org](http://www.omdbapi.org)) || themoviedb ([http://www.themoviedb.org](http://www.themoviedb.org))
 *	Full forms : **CURRENTLY**
 *	Algorithm of similarities
 *	Display results (graph & list)
