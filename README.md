@@ -9,9 +9,7 @@ What is that thing?
 Programming languages
 ---------------------
 
-HTML5, CSS3, Less, Javascript.
-
-Next: Ajax, PHP, MySQL.
+HTML5, CSS3, Less, Javascript, Ajax.
 
 Libraries
 ---------
