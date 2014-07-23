@@ -19,12 +19,6 @@
 		<link rel="stylesheet" href="CSS/grid.css" type="text/css" media="screen">
 		<link rel="stylesheet" href="CSS/style.css" type="text/css" media="screen">
 
-		<!--
-		JS
-		-->
-		<script src="JS/basic.js">
-		</script>
-
 	</head>
 
 	<body>
@@ -39,7 +33,7 @@
 
 				<div id="nav_center" class="grid_9 omega">
 					<ul class="navigation">
-						<li data-slide="1">Search & submit a movie</li>
+						<li data-slide="1">Search & submit</li>
 						<li data-slide="2">Presentation</li>
 						<li data-slide="3">Help us!</li>
 						<li data-slide="4">Credits</li>
@@ -62,7 +56,7 @@
 				<p>
 					<h3>MovieNetwork is a simple tool which allows you to have some informations about movies which have similarities with movies you like.</h3>
 				</p>
-					<form class="pure-form" method="POST" id="form_search_movie" action="PHP/treat_movie.php">
+					<form class="pure-form" id="form_search_movie">
 						<fieldset>
 							<legend><h3>Search similarities from a movie you like</h3></legend>
 							<br/>
@@ -84,7 +78,7 @@
 								<!--
 								Submit button hidden -> Enter key to submit
 								-->
-								<input type="submit" style="display:none"/>
+								<input type="submit" id="submit_search"/>
 							</center>
 						</fieldset>
 					</form>
@@ -197,6 +191,7 @@
 	<script type="text/javascript" src="JS/waypoints.min.js"></script>
 	<script type="text/javascript" src="JS/jquery.easing.1.3.js"></script>
 	<script type="text/javascript" src="JS/scripts.js"></script>
+	<script src="JS/basic.js"></script>
 
 	</body>
 

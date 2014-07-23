@@ -1,7 +1,13 @@
+$('#submit_search').click(function()
+{
+    search_movie();
+    return false;
+});
+
 /*
 Function which allows to hide or display the input_movie form
 */
-function hideAndDisplayNewMovie() {
+function hide_and_display_new_movie () {
 
 	var form_input_movie = document.getElementById("form_input_movie");
 
@@ -12,5 +18,69 @@ function hideAndDisplayNewMovie() {
 
 	console.log(form_input_movie.style.display);
 
+}
 
+/*
+Function which allows to validate a form
+*/
+function validate_form (movie) {
+	if (movie == null || movie == "") {
+		alert("You have to add the name of the movie...");
+		return false;
+	}
+	return true;
+}
+
+/*
+Function which allows to build/make an http_object
+XMLHttpRequest -> Firefox/Chrome/Safari/InternetExplorer(7/8+)
+Msxml2 -> Bad Internet Explorer
+Microsoft -> Really bad Internet Explorer
+*/
+function make_http_object() {
+  try {return new XMLHttpRequest();}
+  catch (error) {}
+  try {return new ActiveXObject("Msxml2.XMLHTTP");}
+  catch (error) {}
+  try {return new ActiveXObject("Microsoft.XMLHTTP");}
+  catch (error) {}
+
+  throw new Error("Creation of the HTTP request object is not OK...");
+}
+
+/*
+Function which allows to search in the OMDB database the movie giving in parameter
+*/
+function send_search_omdb (movie) {
+	var http_request = make_http_object();
+	http_request.open("GET", "http://www.omdbapi.com/?t="+movie, false);
+	http_request.send(null);
+
+	return http_request;
+}
+
+/*
+Function which allows to process the request of 'send_search_omdb'
+*/
+function process_search_omdb (request) {
+
+	var request_text = request.responseText;
+
+	var omdbJSON = eval("(" + request_text + ")");
+
+	alert(omdbJSON.Title);
+
+}
+
+/*
+Function which allows to validate form, search in the OMDB database the movie, and give us the result 
+*/
+function search_movie () {
+
+	var movie = document.forms["form_search_movie"]["movie_searched"].value;
+
+	if (validate_form(movie)) {
+		var request = send_search_omdb(movie);
+		process_search_omdb(request);
+	}
 }
