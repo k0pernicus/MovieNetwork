@@ -55,10 +55,14 @@ function make_http_object() {
 /*
 Function which allows to search in the OMDB database the movie giving in parameter
 */
-function send_search_omdb (movie) {
+function send_search_omdb (movie, api_key) {
 	var http_request = make_http_object();
-	http_request.open("GET", "http://www.omdbapi.com/?t="+movie, false);
-	http_request.send(null);
+
+	var api_key = api_key;
+
+	http_request.open("GET", "https://api.themoviedb.org/3/search/movie?query="+movie+"&api_key="+api_key);
+
+	http_request.setRequestHeader('Accept', 'application/json');
 
 	return http_request;
 }
