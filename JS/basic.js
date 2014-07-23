@@ -68,11 +68,16 @@ Function which allows to process the request of 'send_search_omdb'
 */
 function process_search_omdb (request) {
 
-	var request_text = request.responseText;
+	request.onreadystatechange = function () {
+  		if (this.readyState === 4) {
+		    console.log('Status:', this.status);
+		    console.log('Headers:', this.getAllResponseHeaders());
+		    console.log('Body:', this.responseText);
 
-	var omdbJSON = eval("(" + request_text + ")");
+		}
+	};
 
-	alert(omdbJSON.Title);
+	request.send(JSON.stringify(request.responseText));
 
 }
 
