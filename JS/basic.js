@@ -1,3 +1,9 @@
+$('#submit_search').click(function()
+{
+    search_movie();
+    return false;
+});
+
 /*
 Function which allows to hide or display the input_movie form
 */
