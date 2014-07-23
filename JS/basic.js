@@ -23,9 +23,13 @@ function hide_and_display_new_movie () {
 /*
 Function which allows to validate a form
 */
-function validate_form (movie) {
+function validate_form (movie, api_key) {
 	if (movie == null || movie == "") {
 		alert("You have to add the name of the movie...");
+		return false;
+	}
+	if (api_key == null || api_key == "") {
+		alert("Your api_key is null -> Please to enter your Movie Database api_key...");
 		return false;
 	}
 	return true;
