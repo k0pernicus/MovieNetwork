@@ -104,7 +104,105 @@ function send_search_mdb (movie) {
 		}
 	};
 
-	this.request.send(JSON.stringify(this.request.responseText));
+	http_request.send(JSON.stringify(http_request.responseText));
+}
+
+function remove_all_child (document) {
+
+	while (document.firstChild)
+    	document.removeChild(document.firstChild);	
+
+}
+
+function display_movie () {
+
+	var display_results_node = document.getElementById('display_results');
+	remove_all_child(display_results_node);
+
+	var bold = document.createElement('b');
+
+	var intro = document.createTextNode("Result:");
+	var title = document.createTextNode(this.titleM);
+	var date = document.createTextNode(this.date);
+
+	bold.appendChild(intro);
+	display_results_node.appendChild(bold);
+	display_results_node.appendChild(document.createElement('br'));
+	display_results_node.appendChild(title);
+	display_results_node.appendChild(document.createElement('br'));
+	display_results_node.appendChild(date);
+	display_results_node.appendChild(document.createElement('br'));
+	display_results_node.appendChild(document.createElement('br'));
+
+}
+
+function display_all_movies() {
+
+	var display_results_node = document.getElementById('display_results');
+
+	var center = document.createElement('center');
+	var h3 = document.createElement('h3');
+	var table = document.createElement('table');
+	var caption = document.createElement('caption');
+	var th = document.createElement('th');
+	var tr = document.createElement('tr');
+	var td = document.createElement('td');
+
+	var intro = document.createTextNode("Similar movies:");
+
+	h3.appendChild(intro);
+	caption.appendChild(h3);
+	table.appendChild(caption);
+	th.style.textAlign = 'left';
+	th.appendChild(document.createTextNode("Title"));
+	table.appendChild(th);
+	th = document.createElement('th');
+	th.style.textAlign = 'left';
+	th.appendChild(document.createTextNode("Release date"));
+	table.appendChild(th);
+	for (var i = 0; i < similarMovies_title.length; i++) {
+		tr = document.createElement('tr');
+		td = document.createElement('td');
+		td.appendChild(document.createTextNode(similarMovies_title[i]));
+		tr.appendChild(td);
+		td = document.createElement('td');
+		td.appendChild(document.createTextNode(similarMovies_date[i]));
+		tr.appendChild(td);
+		table.appendChild(tr);
+	}
+
+	center.appendChild(table);
+
+	display_results_node.appendChild(center);
+
+}
+
+function display_no_movie () {
+
+	var display_results_node = document.getElementById('display_results');
+	remove_all_child(display_results_node);
+
+	var bold = document.createElement('b');
+
+	var msg = document.createTextNode("No movie found...");
+	var msgRetry = document.createTextNode("Please to retry with an other title.");
+
+	bold.appendChild(msg);
+	bold.appendChild(document.createElement('br'));
+	bold.appendChild(msgRetry);
+	display_results_node.appendChild(bold);
+
+	return;
+
+}
+
+
+function process_request_and_search_similar_movies () {
+
+	if (tabMovie != null)
+		process_request();
+	if (this.imdbID != null)
+		search_similar_movies();
 
 }
 
