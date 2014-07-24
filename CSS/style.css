@@ -114,6 +114,10 @@ a:visited {
 	background-color:#f68f67;
 	color:#ffffff;
 }
+#slide2 a {
+	color: grey;
+	font-weight: bold;	
+}
 #slide2 h1 {
 	font-size: 3.8em;
 	letter-spacing: -3px;
