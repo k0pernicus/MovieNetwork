@@ -4,3 +4,15 @@ input#movie_searched {
 	height: 55px;
 
 }
+
+#submit_search, #reset_search {
+
+	margin-left: 40px;
+
+}
+
+#display_results {
+
+	text-align: center;
+
+}
