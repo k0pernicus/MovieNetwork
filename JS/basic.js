@@ -79,25 +79,79 @@ Function which allows to process the request of 'send_search_mdb'
 */
 function process_search_mdb () {
 
-	request.onreadystatechange = function () {
+	this.request.onreadystatechange = function () {
   		if (this.readyState === 4) {
 		    console.log('Status:', this.status);
 		    console.log('Headers:', this.getAllResponseHeaders());
 		    console.log('Body:', this.responseText);
-
+		    tabMovie = eval( '('+this.responseText+')');
 		}
 	};
 
-	request.send(JSON.stringify(request.responseText));
+	this.request.send(JSON.stringify(this.request.responseText));
 
 }
 
 /*
 Function which allows to process the request -> search the movie into the tab (default 0), extract name, date, etc...
 */
-function search_movie () {
+function process_request () {
 
-	var api_key = document.forms["form_search_movie"]["user_api_key"].value;
+	if(tabMovie != null) {
+		interval = clearInterval(interval);
+		this.imdbID = tabMovie.results[0].id;
+		this.titleM = tabMovie.results[0].title;
+		this.date = tabMovie.results[0].release_date;
+		this.popularity = tabMovie.results[0].popularity;
+		this.vote_average = tabMovie.results[0].vote_average;
+		this.vote_count = tabMovie.results[0].vote_count;
+	}
+
+}
+
+/*
+Function which permits to search all of the similar movies of the input
+*/
+function search_similar_movies () {
+
+	if (this.imdbID != null) {
+
+		interval = clearInterval(interval);
+
+		var http_request = make_http_object();
+
+		http_request.open("GET", "https://api.themoviedb.org/3/movie/"+this.imdbID+"/similar?api_key="+api_key);
+
+		http_request.setRequestHeader('Accept', 'application/json');
+
+		http_request.onreadystatechange = function () {
+	  		if (this.readyState === 4) {
+			    console.log('Status:', this.status);
+			    console.log('Headers:', this.getAllResponseHeaders());
+			    console.log('Body:', this.responseText);
+			    similarMovies = eval( '('+this.responseText+')');
+			}
+		};
+
+		http_request.send(JSON.stringify(http_request.responseText));
+
+	}
+
+}
+
+function process_request_and_search_similar_movies () {
+
+	if(tabMovie != null)
+		process_request();
+	if (this.imdbID != null)
+		search_similar_movies();
+
+}
+
+/*
+Function which allows to validate form, search in the mdb database the movie, and give us the result 
+*/
+function search_movie () {
 
 	var movie = document.forms["form_search_movie"]["movie_searched"].value;
 
@@ -106,4 +160,5 @@ function search_movie () {
 		process_search_mdb();
 		interval = setInterval("process_request_and_search_similar_movies()", 1000);
 	}
+
 }
