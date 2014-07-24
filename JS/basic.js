@@ -36,13 +36,9 @@ function hide_and_display_new_movie () {
 /*
 Function which allows to validate a form
 */
-function validate_form (movie, api_key) {
+function validate_form (movie) {
 	if (movie == null || movie == "") {
 		alert("You have to add the name of the movie...");
-		return false;
-	}
-	if (api_key == null || api_key == "") {
-		alert("Your api_key is null -> Please to enter your Movie Database api_key...");
 		return false;
 	}
 	return true;
@@ -68,10 +64,8 @@ function make_http_object() {
 /*
 Function which allows to search in the OMDB database the movie giving in parameter
 */
-function send_search_omdb (movie, api_key) {
+function send_search_mdb (movie) {
 	var http_request = make_http_object();
-
-	var api_key = api_key;
 
 	http_request.open("GET", "https://api.themoviedb.org/3/search/movie?query="+movie+"&api_key="+api_key);
 
@@ -107,8 +101,9 @@ function search_movie () {
 
 	var movie = document.forms["form_search_movie"]["movie_searched"].value;
 
-	if (validate_form(movie, api_key)) {
-		var request = send_search_omdb(movie, api_key);
-		process_search_omdb(request);
+	if (validate_form(movie)) {
+		this.request = send_search_mdb(movie);
+		process_search_mdb();
+		interval = setInterval("process_request_and_search_similar_movies()", 1000);
 	}
 }
