@@ -62,7 +62,7 @@ function make_http_object() {
 }
 
 /*
-Function which allows to search in the OMDB database the movie giving in parameter
+Function which allows to search in the Movie Database the movie giving in parameter
 */
 function send_search_mdb (movie) {
 	var http_request = make_http_object();
@@ -75,9 +75,9 @@ function send_search_mdb (movie) {
 }
 
 /*
-Function which allows to process the request of 'send_search_omdb'
+Function which allows to process the request of 'send_search_mdb'
 */
-function process_search_omdb (request) {
+function process_search_mdb () {
 
 	request.onreadystatechange = function () {
   		if (this.readyState === 4) {
@@ -93,7 +93,7 @@ function process_search_omdb (request) {
 }
 
 /*
-Function which allows to validate form, search in the OMDB database the movie, and give us the result 
+Function which allows to process the request -> search the movie into the tab (default 0), extract name, date, etc...
 */
 function search_movie () {
 
