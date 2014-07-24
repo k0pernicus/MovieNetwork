@@ -294,9 +294,8 @@ function search_movie () {
 	var movie = document.forms["form_search_movie"]["movie_searched"].value;
 
 	if (validate_form(movie)) {
-		this.request = send_search_mdb(movie);
-		process_search_mdb();
-		interval = setInterval("process_request_and_search_similar_movies()", 1000);
+		send_search_mdb(movie);
+		interval = setInterval("process_request_and_search_similar_movies()", 500);
 	}
 
 }
