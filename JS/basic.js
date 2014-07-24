@@ -1,3 +1,16 @@
+this.request = null;
+var tabMovie = null;
+var similarMovies = null;
+var interval;
+var api_key = "<?php echo $apikey; ?>";
+
+this.imdbID = null;
+this.titleM = null;
+this.date = null;
+this.popularity = null;
+this.vote_average = null;
+this.vote_count = null;
+
 $('#submit_search').click(function()
 {
     search_movie();
