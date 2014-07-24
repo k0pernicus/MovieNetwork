@@ -24,6 +24,12 @@ $('#submit_search').click(function()
     return false;
 });
 
+$('#reset_search').click(function()
+{
+	var display_results_node = document.getElementById('display_results');
+	remove_all_child(display_results_node);
+});
+
 /*
 Function which allows to hide or display the input_movie form
 */
