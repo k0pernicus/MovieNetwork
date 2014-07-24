@@ -95,15 +95,7 @@ function send_search_mdb (movie) {
 
 	http_request.setRequestHeader('Accept', 'application/json');
 
-	return http_request;
-}
-
-/*
-Function which allows to process the request of 'send_search_mdb'
-*/
-function process_search_mdb () {
-
-	this.request.onreadystatechange = function () {
+	http_request.onreadystatechange = function () {
   		if (this.readyState === 4) {
 		    console.log('Status:', this.status);
 		    console.log('Headers:', this.getAllResponseHeaders());
