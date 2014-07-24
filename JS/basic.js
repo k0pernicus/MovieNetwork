@@ -211,7 +211,7 @@ Function which allows to process the request -> search the movie into the tab (d
 */
 function process_request () {
 
-	if(tabMovie != null) {
+	if (tabMovie.results.length != 0) {
 		interval = clearInterval(interval);
 		this.imdbID = tabMovie.results[0].id;
 		this.titleM = tabMovie.results[0].title;
@@ -219,7 +219,11 @@ function process_request () {
 		this.popularity = tabMovie.results[0].popularity;
 		this.vote_average = tabMovie.results[0].vote_average;
 		this.vote_count = tabMovie.results[0].vote_count;
+
+		display_movie();
 	}
+	else
+		display_no_movie();
 
 }
 
