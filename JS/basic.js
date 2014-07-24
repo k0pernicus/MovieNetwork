@@ -253,16 +253,36 @@ function search_similar_movies () {
 
 		http_request.send(JSON.stringify(http_request.responseText));
 
+		setInterval("process_all_similar_movies()", 500);
+
+		bool_entry = false;
+
 	}
 
 }
 
-function process_request_and_search_similar_movies () {
+function process_all_similar_movies () {
 
-	if(tabMovie != null)
-		process_request();
-	if (this.imdbID != null)
-		search_similar_movies();
+	if (similarMovies != null && bool_entry == false) {
+
+		bool_entry = true;
+
+		reset_all_similar_movies_variables();
+
+		for (var i = 0; i < similarMovies.results.length; i++) {
+
+			this.similarMovies_imdbID.push(similarMovies.results[i].id);
+			this.similarMovies_title.push(similarMovies.results[i].title);
+			this.similarMovies_date.push(similarMovies.results[i].release_date);
+			this.similarMovies_popularity.push(similarMovies.results[i].popularity);
+			this.similarMovies_vote_average.push(similarMovies.results[i].vote_average);
+			this.similarMovies_vote_count.push(similarMovies.results[i].vote_count);
+
+		}
+
+		display_all_movies();
+
+	}
 
 }
 
