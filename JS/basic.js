@@ -2,7 +2,7 @@ var tabMovie = null;
 var similarMoviesTab = new Array();
 var interval;
 var number_similar_movies = 20;
-var api_key = "";
+var api_key = "f5dbc30b9b6055d3e85d063550790802";
 var bool_entry = false;
 var number_similar_movies_obtains = 0;
 
@@ -13,6 +13,7 @@ this.date = null;
 this.popularity = null;
 this.vote_average = null;
 this.vote_count = null;
+this.overview = null;
 
 /*
 Array of similar movies
@@ -30,6 +31,7 @@ function similarMovie_object() {
 	this.popularity = null;
 	this.vote_average = null;
 	this.vote_count = null;
+	this.overview = null;
 }
 
 $('#submit_search').click(function()
@@ -117,6 +119,23 @@ function send_search_mdb (movie) {
 	http_request.send(JSON.stringify(http_request.responseText));
 }
 
+function get_overview (id) {
+
+	var self = this;
+
+	var http_request = make_http_object();
+
+	http_request.open("GET", "https://api.themoviedb.org/3/movie/"+id+"?api_key="+api_key, false);
+
+	http_request.send(null/*JSON.stringify(http_request.responseText)*/);
+
+	if (http_request.readyState == 4) {
+		var obj = eval( '('+http_request.responseText+')');
+		return obj.overview;
+	}
+
+}
+
 function remove_all_child (document) {
 
 	while (document.firstChild)
@@ -136,14 +155,21 @@ function display_movie () {
 	var year = this.date.split("-");
 	var date = document.createTextNode(year[0]);
 
+	console.log("OK1");
+
+	console.log("OK2");
+
+	console.log("Overview ok...");
+
 	bold.appendChild(intro);
 	display_results_node.appendChild(bold);
 	display_results_node.appendChild(document.createElement('br'));
 	if (this.path_poster != "" && this.path_poster != null && typeof(this.path_poster) != "undefined") {
 		var poster = document.createElement('a');
 		poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+this.path_poster);
+		poster.setAttribute('onclick', "refresh_overview(); return false;");
 		poster.setAttribute('data-lightbox', 'poster_principle_movie');
-		poster.setAttribute('data-title', "Poster of \""+this.titleM+"\"");
+		poster.setAttribute('data-title', this.overview);
 		poster.appendChild(title);
 		display_results_node.appendChild(poster);
 	}
@@ -190,7 +216,7 @@ function display_all_movies() {
 			var poster = document.createElement('a');
 			poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+this.similarMovies[i].path_poster);
 			poster.setAttribute('data-lightbox', 'poster_similar_movie');
-			poster.setAttribute('data-title', "Poster of \""+title+"\"");
+			poster.setAttribute('data-title', this.similarMovies[i].overview);
 			poster.appendChild(document.createTextNode(title));
 			td.appendChild(poster);
 		}
@@ -235,8 +261,10 @@ function display_no_movie () {
 
 function process_request_and_search_similar_movies () {
 
-	if (tabMovie != null)
+	if (tabMovie != null) {
 		process_request();
+		display_movie();
+	}
 	if (this.imdbID != null) {
 		this.similarMoviesTab = new Array();
 		search_similar_movies(1);
@@ -259,7 +287,7 @@ function process_request () {
 		this.vote_average = tabMovie.results[0].vote_average;
 		this.vote_count = tabMovie.results[0].vote_count;
 
-		display_movie();
+		this.overview = get_overview(this.imdbID);
 	}
 	else
 		display_no_movie();
@@ -331,7 +359,7 @@ function process_all_similar_movies () {
 				similarMovie.popularity = similarMoviesTab[i].results[j].popularity;
 				similarMovie.vote_average = similarMoviesTab[i].results[j].vote_average;
 				similarMovie.vote_count = similarMoviesTab[i].results[j].vote_count;
-
+				
 				this.similarMovies.push(similarMovie);
 
 			}
@@ -366,6 +394,8 @@ function perform_algorithm_similarities () {
 			similarMovie.vote_average = this.tabMovie.results[i].vote_average;
 			similarMovie.vote_count = this.tabMovie.results[i].vote_count;
 
+			similarMovie.overview = get_overview(similarMovie.id);
+
 			bestSimilarMovies.push(similarMovie);
 
 			this.tabMovie.results.slice(i, 1);
@@ -391,6 +421,8 @@ function perform_algorithm_similarities () {
 			similarMovie.vote_average = this.tabMovie.results[i].vote_average;
 			similarMovie.vote_count = this.tabMovie.results[i].vote_count;
 
+			similarMovie.overview = get_overview(similarMovie.id);
+
 			bestSimilarMovies.push(similarMovie);
 
 			number_similar_movies_obtains++;
@@ -402,12 +434,14 @@ function perform_algorithm_similarities () {
 
 		if ((this.similarMovies[i].title.indexOf(this.titleM) >= 0) || (this.titleM.indexOf(this.similarMovies[i].title) >= 0)) {
 			console.log(this.similarMovies[i].title+" -> "+this.titleM);
+			this.similarMovies[i].overview = get_overview(this.similarMovies[i].id);
 			bestSimilarMovies.push(this.similarMovies[i]);
 			this.similarMovies.splice(i, 1);
 			number_similar_movies_obtains++;
 		}
 		else {
 			if (parseInt(this.similarMovies[i].vote_average) >= 7) {
+			this.similarMovies[i].overview = get_overview(this.similarMovies[i].id);
 			bestSimilarMovies.push(this.similarMovies[i]);
 			this.similarMovies.splice(i, 1);
 			number_similar_movies_obtains++;
