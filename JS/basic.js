@@ -4,6 +4,7 @@ var interval;
 var number_similar_movies = 20;
 var api_key = "";
 var bool_entry = false;
+var number_similar_movies_obtains = 0;
 
 this.imdbID = null;
 this.titleM = null;
