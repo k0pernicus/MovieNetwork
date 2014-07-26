@@ -1,6 +1,7 @@
 var tabMovie = null;
 var similarMoviesTab = new Array();
 var interval;
+var number_similar_movies = 20;
 var api_key = "";
 var bool_entry = false;
 
