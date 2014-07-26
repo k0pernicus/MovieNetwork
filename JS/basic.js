@@ -61,12 +61,7 @@ function hide_and_display_new_movie () {
 
 function reset_all_similar_movies_variables () {
 
-	this.similarMovies_imdbID = new Array();
-	this.similarMovies_title = new Array();
-	this.similarMovies_date = new Array();
-	this.similarMovies_popularity = new Array();
-	this.similarMovies_vote_average = new Array();
-	this.similarMovies_vote_count = new Array();
+	this.similarMovies = new Array();
 
 }
 
