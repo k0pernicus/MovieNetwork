@@ -139,12 +139,17 @@ function display_movie () {
 	bold.appendChild(intro);
 	display_results_node.appendChild(bold);
 	display_results_node.appendChild(document.createElement('br'));
-	var poster = document.createElement('a');
-	poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+this.path_poster);
-	poster.setAttribute('data-lightbox', 'poster_principle_movie');
-	poster.setAttribute('data-title', "Poster of \""+this.titleM+"\"");
-	poster.appendChild(title);
-	display_results_node.appendChild(poster);
+	if (this.path_poster != "" && this.path_poster != null && typeof(this.path_poster) != "undefined") {
+		var poster = document.createElement('a');
+		poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+this.path_poster);
+		poster.setAttribute('data-lightbox', 'poster_principle_movie');
+		poster.setAttribute('data-title', "Poster of \""+this.titleM+"\"");
+		poster.appendChild(title);
+		display_results_node.appendChild(poster);
+	}
+	else {
+		display_results_node.appendChild(title);
+	}
 	display_results_node.appendChild(document.createElement('br'));
 	display_results_node.appendChild(date);
 	display_results_node.appendChild(document.createElement('br'));
@@ -176,20 +181,28 @@ function display_all_movies() {
 	th.style.textAlign = 'left';
 	th.appendChild(document.createTextNode("Release date"));
 	table.appendChild(th);
-	for (var i = 0; i < number_similar_movies; i++) {
+	for (var i = 0; i < (number_similar_movies > number_similar_movies_obtains? number_similar_movies_obtains : number_similar_movies); i++) {
 		tr = document.createElement('tr');
 		td = document.createElement('td');
 		var title = this.similarMovies[i].title;
-		var poster = document.createElement('a');
-		poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+this.similarMovies[i].path_poster);
-		poster.setAttribute('data-lightbox', 'poster_similar_movie');
-		poster.setAttribute('data-title', "Poster of \""+title+"\"");
-		poster.appendChild(document.createTextNode(title));
-		td.appendChild(poster);
+		var path_poster = this.similarMovies[i].path_poster;
+		if (path_poster != "" && path_poster != null && typeof(path_poster) != "undefined") {
+			var poster = document.createElement('a');
+			poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+this.similarMovies[i].path_poster);
+			poster.setAttribute('data-lightbox', 'poster_similar_movie');
+			poster.setAttribute('data-title', "Poster of \""+title+"\"");
+			poster.appendChild(document.createTextNode(title));
+			td.appendChild(poster);
+		}
+		else {
+			td.appendChild(document.createTextNode(title));
+		}
 		tr.appendChild(td);
 		td = document.createElement('td');
-		var date = this.similarMovies[i].date.split("-");
-		td.appendChild(document.createTextNode(date[0]));
+		if (typeof(this.similarMovies[i].date) != "undefined" && this.similarMovies[i].date != null) {
+			var date = this.similarMovies[i].date.split("-");
+			td.appendChild(document.createTextNode(date[0]));
+		}
 		tr.appendChild(td);
 		table.appendChild(tr);
 	}
