@@ -12,12 +12,23 @@ this.popularity = null;
 this.vote_average = null;
 this.vote_count = null;
 
-this.similarMovies_imdbID = new Array();
-this.similarMovies_title = new Array();
-this.similarMovies_date = new Array();
-this.similarMovies_popularity = new Array();
-this.similarMovies_vote_average = new Array();
-this.similarMovies_vote_count = new Array();
+/*
+Array of similar movies
+*/
+this.similarMovies = new Array();
+
+/*
+Object to represent a similar movie
+*/
+function similarMovie_object() {
+	this.id = null;
+	this.title = null;
+	this.date = null;
+	this.path_poster = null;
+	this.popularity = null;
+	this.vote_average = null;
+	this.vote_count = null;
+}
 
 $('#submit_search').click(function()
 {
