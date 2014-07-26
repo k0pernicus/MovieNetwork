@@ -1,5 +1,5 @@
 var tabMovie = null;
-var similarMovies = null;
+var similarMoviesTab = new Array();
 var interval;
 var api_key = "";
 var bool_entry = false;
