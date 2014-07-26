@@ -338,11 +338,85 @@ function process_all_similar_movies () {
 
 		}
 
-		this.similarMovies.sort(function(a,b) {if (a.title < b.title) return -1; if (a.title > b.title) return 1; return 0});
-
+		perform_algorithm_similarities();
+		
 		display_all_movies();
 
 	}
+
+}
+
+function perform_algorithm_similarities () {
+
+	number_similar_movies_obtains = 0;
+
+	var bestSimilarMovies = new Array();
+
+	for (var i = 0; i < this.tabMovie.results.length; i++) {
+
+		if (((this.tabMovie.results[i].title.indexOf(this.titleM) == 0) || (this.titleM.indexOf(this.tabMovie.results[i].title) == 0)) && ((this.titleM != this.tabMovie.results[i].title) || (this.date != this.tabMovie.results[i].release_date))) {
+			
+			var similarMovie = new similarMovie_object();
+
+			similarMovie.id = this.tabMovie.results[i].id;
+			similarMovie.title = this.tabMovie.results[i].title;
+			similarMovie.date = this.tabMovie.results[i].release_date;
+			similarMovie.path_poster = this.tabMovie.results[i].poster_path;
+			similarMovie.popularity = this.tabMovie.results[i].popularity;
+			similarMovie.vote_average = this.tabMovie.results[i].vote_average;
+			similarMovie.vote_count = this.tabMovie.results[i].vote_count;
+
+			bestSimilarMovies.push(similarMovie);
+
+			this.tabMovie.results.slice(i, 1);
+
+			number_similar_movies_obtains++;
+		}
+
+	}
+
+	bestSimilarMovies.sort(function(a,b) {if (a.title < b.title) return -1; if (a.title > b.title) return 1; return 0});
+
+	for (var i = 0; i < this.tabMovie.results.length; i++) {
+
+		if ((this.tabMovie.results[i].title.indexOf(this.titleM) > 0) || (this.titleM.indexOf(this.tabMovie.results[i].title) > 0)) {
+			
+			var similarMovie = new similarMovie_object();
+
+			similarMovie.id = this.tabMovie.results[i].id;
+			similarMovie.title = this.tabMovie.results[i].title;
+			similarMovie.date = this.tabMovie.results[i].release_date;
+			similarMovie.path_poster = this.tabMovie.results[i].poster_path;
+			similarMovie.popularity = this.tabMovie.results[i].popularity;
+			similarMovie.vote_average = this.tabMovie.results[i].vote_average;
+			similarMovie.vote_count = this.tabMovie.results[i].vote_count;
+
+			bestSimilarMovies.push(similarMovie);
+
+			number_similar_movies_obtains++;
+		}
+
+	}
+
+	for (var i = 0; i < this.similarMovies.length; i++) {
+
+		if ((this.similarMovies[i].title.indexOf(this.titleM) >= 0) || (this.titleM.indexOf(this.similarMovies[i].title) >= 0)) {
+			console.log(this.similarMovies[i].title+" -> "+this.titleM);
+			bestSimilarMovies.push(this.similarMovies[i]);
+			this.similarMovies.splice(i, 1);
+			number_similar_movies_obtains++;
+		}
+		else {
+			if (parseInt(this.similarMovies[i].vote_average) >= 7) {
+			bestSimilarMovies.push(this.similarMovies[i]);
+			this.similarMovies.splice(i, 1);
+			number_similar_movies_obtains++;
+			}
+		}
+
+	}
+
+	this.similarMovies = bestSimilarMovies;
 
 }
 
