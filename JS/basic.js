@@ -32,7 +32,8 @@ function similarMovie_object() {
 
 $('#submit_search').click(function()
 {
-    search_movie();
+	number_similar_movies = $("#number_movies_listed").val();
+	search_movie();
     return false;
 });
 
