@@ -241,15 +241,17 @@ function process_request () {
 Function which permits to search all of the similar movies of the input
 param page_number -> number of the page to search (default: 1)
 */
-function search_similar_movies () {
+function search_similar_movies (page_number) {
 
 	if (this.imdbID != null) {
 
 		interval = clearInterval(interval);
 
+		var tmp_similarMoviesTab = null;
+
 		var http_request = make_http_object();
 
-		http_request.open("GET", "https://api.themoviedb.org/3/movie/"+this.imdbID+"/similar?api_key="+api_key);
+		http_request.open("GET", "https://api.themoviedb.org/3/movie/"+this.imdbID+"/similar?page="+page_number+"&api_key="+api_key);
 
 		http_request.setRequestHeader('Accept', 'application/json');
 
@@ -258,13 +260,20 @@ function search_similar_movies () {
 			    console.log('Status:', this.status);
 			    console.log('Headers:', this.getAllResponseHeaders());
 			    console.log('Body:', this.responseText);
-			    similarMovies = eval( '('+this.responseText+')');
+			    tmp_similarMoviesTab = eval( '('+this.responseText+')');
+			    similarMoviesTab.push(tmp_similarMoviesTab);
+			    if (page_number > 20) {
+			    	process_all_similar_movies();
+			    	return;
+			    }
+			    else {
+			    	page_number++;
+			    	search_similar_movies(page_number);
+			    }
 			}
 		};
 
 		http_request.send(JSON.stringify(http_request.responseText));
-
-		setInterval("process_all_similar_movies()", 500);
 
 		bool_entry = false;
 
