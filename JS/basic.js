@@ -164,7 +164,7 @@ function display_all_movies() {
 	var tr = document.createElement('tr');
 	var td = document.createElement('td');
 
-	var intro = document.createTextNode("Similar movies:");
+	var intro = document.createTextNode("Similar movies ("+number_similar_movies_obtains+"): ");
 
 	h3.appendChild(intro);
 	caption.appendChild(h3);
