@@ -239,6 +239,7 @@ function process_request () {
 
 /*
 Function which permits to search all of the similar movies of the input
+param page_number -> number of the page to search (default: 1)
 */
 function search_similar_movies () {
 
