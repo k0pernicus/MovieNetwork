@@ -25,9 +25,9 @@ TODO
 *	Ajax script to display some available names to the user, when he write the name of the movie in the search form : **DONE**
 *	Database of movies : usage of themoviedb ([http://www.themoviedb.org](http://www.themoviedb.org)) -> **NEED AN API_KEY**
 *	Full forms : **DONE**
-*	Algorithm of similarities : **TO PERFORM LATER**
+*	Algorithm of similarities : **CURRENTLY - NEED TO REMOVE ALL DUPLICATIONS**
 *	Display results (graph & list) : **LIST: OK (HTML TABLE) -- GRAPH: CURRENTLY**
-*	Secure ?
+*	Secure : **TO SEE WITH THE PRIVATE BETA**
 *	Put online
 *	Drink some coke : **ALLWAYS (AND FOREVER <3)**
 
