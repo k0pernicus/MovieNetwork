@@ -14,7 +14,7 @@ HTML5, CSS3, Less, Javascript, Ajax.
 Libraries
 ---------
 
-JQuery, CoolKitten, PureCSS.
+JQuery, Lightbox, CoolKitten, PureCSS.
 
 Next: D3JS.
 

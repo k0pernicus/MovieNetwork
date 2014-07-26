@@ -7,6 +7,7 @@ var bool_entry = false;
 
 this.imdbID = null;
 this.titleM = null;
+this.path_poster = null;
 this.date = null;
 this.popularity = null;
 this.vote_average = null;
@@ -105,9 +106,9 @@ function send_search_mdb (movie) {
 
 	http_request.onreadystatechange = function () {
   		if (this.readyState === 4) {
-		    console.log('Status:', this.status);
-		    console.log('Headers:', this.getAllResponseHeaders());
-		    console.log('Body:', this.responseText);
+		    //console.log('Status:', this.status);
+		    //console.log('Headers:', this.getAllResponseHeaders());
+		    //console.log('Body:', this.responseText);
 		    tabMovie = eval( '('+this.responseText+')');
 		}
 	};
@@ -131,12 +132,18 @@ function display_movie () {
 
 	var intro = document.createTextNode("Result:");
 	var title = document.createTextNode(this.titleM);
-	var date = document.createTextNode(this.date);
+	var year = this.date.split("-");
+	var date = document.createTextNode(year[0]);
 
 	bold.appendChild(intro);
 	display_results_node.appendChild(bold);
 	display_results_node.appendChild(document.createElement('br'));
-	display_results_node.appendChild(title);
+	var poster = document.createElement('a');
+	poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+this.path_poster);
+	poster.setAttribute('data-lightbox', 'poster_principle_movie');
+	poster.setAttribute('data-title', "Poster of \""+this.titleM+"\"");
+	poster.appendChild(title);
+	display_results_node.appendChild(poster);
 	display_results_node.appendChild(document.createElement('br'));
 	display_results_node.appendChild(date);
 	display_results_node.appendChild(document.createElement('br'));
@@ -171,10 +178,17 @@ function display_all_movies() {
 	for (var i = 0; i < number_similar_movies; i++) {
 		tr = document.createElement('tr');
 		td = document.createElement('td');
-		td.appendChild(document.createTextNode(this.similarMovies[i].title));
+		var title = this.similarMovies[i].title;
+		var poster = document.createElement('a');
+		poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+this.similarMovies[i].path_poster);
+		poster.setAttribute('data-lightbox', 'poster_similar_movie');
+		poster.setAttribute('data-title', "Poster of \""+title+"\"");
+		poster.appendChild(document.createTextNode(title));
+		td.appendChild(poster);
 		tr.appendChild(td);
 		td = document.createElement('td');
-		td.appendChild(document.createTextNode(this.similarMovies[i].date));
+		var date = this.similarMovies[i].date.split("-");
+		td.appendChild(document.createTextNode(date[0]));
 		tr.appendChild(td);
 		table.appendChild(tr);
 	}
@@ -226,6 +240,7 @@ function process_request () {
 		this.imdbID = tabMovie.results[0].id;
 		this.titleM = tabMovie.results[0].title;
 		this.date = tabMovie.results[0].release_date;
+		this.path_poster = tabMovie.results[0].poster_path;
 		this.popularity = tabMovie.results[0].popularity;
 		this.vote_average = tabMovie.results[0].vote_average;
 		this.vote_count = tabMovie.results[0].vote_count;
@@ -257,9 +272,9 @@ function search_similar_movies (page_number) {
 
 		http_request.onreadystatechange = function () {
 	  		if (this.readyState === 4) {
-			    console.log('Status:', this.status);
-			    console.log('Headers:', this.getAllResponseHeaders());
-			    console.log('Body:', this.responseText);
+			    //console.log('Status:', this.status);
+			    //console.log('Headers:', this.getAllResponseHeaders());
+			    //console.log('Body:', this.responseText);
 			    tmp_similarMoviesTab = eval( '('+this.responseText+')');
 			    similarMoviesTab.push(tmp_similarMoviesTab);
 			    if (page_number > 20) {
@@ -298,7 +313,7 @@ function process_all_similar_movies () {
 				similarMovie.id = similarMoviesTab[i].results[j].id;
 				similarMovie.title = similarMoviesTab[i].results[j].title;
 				similarMovie.date = similarMoviesTab[i].results[j].release_date;
-				similarMovie.path_poster = similarMoviesTab[i].results[j].poster;
+				similarMovie.path_poster = similarMoviesTab[i].results[j].poster_path;
 				similarMovie.popularity = similarMoviesTab[i].results[j].popularity;
 				similarMovie.vote_average = similarMoviesTab[i].results[j].vote_average;
 				similarMovie.vote_count = similarMoviesTab[i].results[j].vote_count;
