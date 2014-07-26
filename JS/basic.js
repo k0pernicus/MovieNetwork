@@ -168,13 +168,13 @@ function display_all_movies() {
 	th.style.textAlign = 'left';
 	th.appendChild(document.createTextNode("Release date"));
 	table.appendChild(th);
-	for (var i = 0; i < similarMovies_title.length; i++) {
+	for (var i = 0; i < number_similar_movies; i++) {
 		tr = document.createElement('tr');
 		td = document.createElement('td');
-		td.appendChild(document.createTextNode(similarMovies_title[i]));
+		td.appendChild(document.createTextNode(this.similarMovies[i].title));
 		tr.appendChild(td);
 		td = document.createElement('td');
-		td.appendChild(document.createTextNode(similarMovies_date[i]));
+		td.appendChild(document.createTextNode(this.similarMovies[i].date));
 		tr.appendChild(td);
 		table.appendChild(tr);
 	}
@@ -209,8 +209,10 @@ function process_request_and_search_similar_movies () {
 
 	if (tabMovie != null)
 		process_request();
-	if (this.imdbID != null)
-		search_similar_movies();
+	if (this.imdbID != null) {
+		this.similarMoviesTab = new Array();
+		search_similar_movies(1);
+	}
 
 }
 
@@ -271,20 +273,29 @@ function search_similar_movies () {
 
 function process_all_similar_movies () {
 
-	if (similarMovies != null && bool_entry == false) {
+	if (similarMoviesTab != null && bool_entry == false) {
 
 		bool_entry = true;
 
 		reset_all_similar_movies_variables();
 
-		for (var i = 0; i < similarMovies.results.length; i++) {
+		for (var i = 0; i < similarMoviesTab.length; i++) {
 
-			this.similarMovies_imdbID.push(similarMovies.results[i].id);
-			this.similarMovies_title.push(similarMovies.results[i].title);
-			this.similarMovies_date.push(similarMovies.results[i].release_date);
-			this.similarMovies_popularity.push(similarMovies.results[i].popularity);
-			this.similarMovies_vote_average.push(similarMovies.results[i].vote_average);
-			this.similarMovies_vote_count.push(similarMovies.results[i].vote_count);
+			for (var j = 0; j < similarMoviesTab[i].results.length; j++) {
+
+				var similarMovie = new similarMovie_object();
+
+				similarMovie.id = similarMoviesTab[i].results[j].id;
+				similarMovie.title = similarMoviesTab[i].results[j].title;
+				similarMovie.date = similarMoviesTab[i].results[j].release_date;
+				similarMovie.path_poster = similarMoviesTab[i].results[j].poster;
+				similarMovie.popularity = similarMoviesTab[i].results[j].popularity;
+				similarMovie.vote_average = similarMoviesTab[i].results[j].vote_average;
+				similarMovie.vote_count = similarMoviesTab[i].results[j].vote_count;
+
+				this.similarMovies.push(similarMovie);
+
+			}
 
 		}
 
