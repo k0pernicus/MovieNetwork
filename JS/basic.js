@@ -2,7 +2,7 @@ var tabMovie = null;
 var similarMoviesTab = new Array();
 var interval;
 var number_similar_movies = 20;
-var api_key = "f5dbc30b9b6055d3e85d063550790802";
+var api_key = "";
 var bool_entry = false;
 var number_similar_movies_obtains = 0;
 
