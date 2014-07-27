@@ -47,22 +47,6 @@ $('#reset_search').click(function()
 	remove_all_child(display_results_node);
 });
 
-/*
-Function which allows to hide or display the input_movie form
-*/
-function hide_and_display_new_movie () {
-
-	var form_input_movie = document.getElementById("form_input_movie");
-
-	if (form_input_movie.style.display == "none")
-		form_input_movie.style.display = "block";
-	else
-		form_input_movie.style.display = "none";
-
-	console.log(form_input_movie.style.display);
-
-}
-
 function reset_all_similar_movies_variables () {
 
 	this.similarMovies = new Array();
@@ -109,9 +93,6 @@ function send_search_mdb (movie) {
 
 	http_request.onreadystatechange = function () {
   		if (this.readyState === 4) {
-		    //console.log('Status:', this.status);
-		    //console.log('Headers:', this.getAllResponseHeaders());
-		    //console.log('Body:', this.responseText);
 		    tabMovie = eval( '('+this.responseText+')');
 		}
 	};
@@ -154,12 +135,6 @@ function display_movie () {
 	var title = document.createTextNode(this.titleM);
 	var year = this.date.split("-");
 	var date = document.createTextNode(year[0]);
-
-	console.log("OK1");
-
-	console.log("OK2");
-
-	console.log("Overview ok...");
 
 	bold.appendChild(intro);
 	display_results_node.appendChild(bold);
@@ -314,9 +289,6 @@ function search_similar_movies (page_number) {
 
 		http_request.onreadystatechange = function () {
 	  		if (this.readyState === 4) {
-			    //console.log('Status:', this.status);
-			    //console.log('Headers:', this.getAllResponseHeaders());
-			    //console.log('Body:', this.responseText);
 			    tmp_similarMoviesTab = eval( '('+this.responseText+')');
 			    similarMoviesTab.push(tmp_similarMoviesTab);
 			    if (page_number > 20) {
@@ -433,7 +405,6 @@ function perform_algorithm_similarities () {
 	for (var i = 0; i < this.similarMovies.length; i++) {
 
 		if ((this.similarMovies[i].title.indexOf(this.titleM) >= 0) || (this.titleM.indexOf(this.similarMovies[i].title) >= 0)) {
-			console.log(this.similarMovies[i].title+" -> "+this.titleM);
 			this.similarMovies[i].overview = get_overview(this.similarMovies[i].id);
 			bestSimilarMovies.push(this.similarMovies[i]);
 			this.similarMovies.splice(i, 1);
