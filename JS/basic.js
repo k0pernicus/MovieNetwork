@@ -352,6 +352,9 @@ function perform_algorithm_similarities () {
 
 	var bestSimilarMovies = new Array();
 
+	/*
+	Management of unique case like "Harry Potter" -> search first position "Harry" in "Harry Potter and the chamber of secrets", and not "Harry Potter and the philosopher's stone" in "Harry potter and the chamber of secrets" (-> GAME OVER)
+	*/
 	var first_part_title = this.titleM.split(' ')[0];
 
 	for (var i = 0; i < this.tabMovie.results.length; i++) {
