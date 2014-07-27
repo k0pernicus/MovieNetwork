@@ -352,10 +352,12 @@ function perform_algorithm_similarities () {
 
 	var bestSimilarMovies = new Array();
 
+	var first_part_title = this.titleM.split(' ')[0];
+
 	for (var i = 0; i < this.tabMovie.results.length; i++) {
 
-		if (((this.tabMovie.results[i].title.indexOf(this.titleM) == 0) || (this.titleM.indexOf(this.tabMovie.results[i].title) == 0)) && ((this.titleM != this.tabMovie.results[i].title) || (this.date != this.tabMovie.results[i].release_date))) {
-			
+		if (((this.tabMovie.results[i].title.indexOf(first_part_title) == 0) || (this.titleM.indexOf(this.tabMovie.results[i].title) == 0)) && ((this.titleM != this.tabMovie.results[i].title) || (this.date != this.tabMovie.results[i].release_date))) {
+
 			var similarMovie = new similarMovie_object();
 
 			similarMovie.id = this.tabMovie.results[i].id;
