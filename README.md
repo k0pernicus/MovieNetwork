@@ -26,7 +26,7 @@ TODO
 *	Database of movies : usage of themoviedb ([http://www.themoviedb.org](http://www.themoviedb.org)) -> **NEED AN API_KEY**
 *	Full forms : **DONE**
 *	Algorithm of similarities : **DONE**
-*	Display results (graph & list) : **LIST: OK (HTML TABLE) -- GRAPH: CURRENTLY**
+*	Display results (graph & list) : **LIST: DONE -- GRAPH: CURRENTLY**
 *	Secure : **TO SEE WITH THE PRIVATE BETA**
 *	Put online
 *	Drink some coke : **ALLWAYS (AND FOREVER <3)**
