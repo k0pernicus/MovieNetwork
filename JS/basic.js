@@ -88,6 +88,31 @@ function validate_form (movie) {
 	return true;
 }
 
+function display_save_file_button (bool) {
+
+	if (bool)
+		document.getElementById("save_pdf_file").setAttribute("class", "pure-button pure-button-primary");
+	else
+		document.getElementById("save_pdf_file").setAttribute("class", "pure-button pure-button-disabled");
+
+}
+
+/*
+Function which allows to validate form, search in the mdb database the movie, and give us the result 
+*/
+function search_movie () {
+
+	var movie = document.forms["form_search_movie"]["movie_searched"].value;
+
+	if (validate_form(movie)) {
+		send_search_mdb(movie);
+		interval = setInterval("process_request_and_search_similar_movies()", 500);
+	}
+	else
+		display_save_file_button(false)
+
+}
+
 /*
 Function which allows to build/make an http_object
 XMLHttpRequest -> Firefox/Chrome/Safari/InternetExplorer(7/8+)
