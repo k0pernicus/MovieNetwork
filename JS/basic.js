@@ -19,7 +19,7 @@ this.overview = null;
 /*
 Array of similar movies
 */
-this.similarMovies = new Array();
+var similarMovies = new Array();
 
 /*
 Object to represent a similar movie
@@ -73,7 +73,7 @@ function reset_all_variables () {
 
 function reset_all_similar_movies_variables () {
 
-	this.similarMovies = new Array();
+	similarMovies = new Array();
 
 }
 
@@ -209,13 +209,13 @@ function display_all_movies() {
 	for (var i = 0; i < (number_similar_movies > number_similar_movies_obtains? number_similar_movies_obtains : number_similar_movies); i++) {
 		tr = document.createElement('tr');
 		td = document.createElement('td');
-		var title = this.similarMovies[i].title;
-		var path_poster = this.similarMovies[i].path_poster;
+		var title = similarMovies[i].title;
+		var path_poster = similarMovies[i].path_poster;
 		if (path_poster != "" && path_poster != null && typeof(path_poster) != "undefined") {
 			var poster = document.createElement('a');
-			poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+this.similarMovies[i].path_poster);
+			poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+similarMovies[i].path_poster);
 			poster.setAttribute('data-lightbox', 'poster_similar_movie');
-			poster.setAttribute('data-title', this.similarMovies[i].overview);
+			poster.setAttribute('data-title', similarMovies[i].overview);
 			poster.appendChild(document.createTextNode(title));
 			td.appendChild(poster);
 		}
@@ -224,8 +224,8 @@ function display_all_movies() {
 		}
 		tr.appendChild(td);
 		td = document.createElement('td');
-		if (typeof(this.similarMovies[i].date) != "undefined" && this.similarMovies[i].date != null) {
-			var date = this.similarMovies[i].date.split("-");
+		if (typeof(similarMovies[i].date) != "undefined" && similarMovies[i].date != null) {
+			var date = similarMovies[i].date.split("-");
 			td.appendChild(document.createTextNode(date[0]));
 		}
 		tr.appendChild(td);
@@ -234,35 +234,25 @@ function display_all_movies() {
 
 	center.appendChild(table);
 
+	document.getElementById("msg_waiting").remove();
+
 	display_results_node.appendChild(center);
 
 }
 
-function display_no_movie () {
+function display_all_movies_graph () {
 
-	var display_results_node = document.getElementById('display_results');
-	remove_all_child(display_results_node);
-
-	var bold = document.createElement('b');
-
-	var msg = document.createTextNode("No movie found...");
-	var msgRetry = document.createTextNode("Please to retry with an other title.");
-
-	bold.appendChild(msg);
-	bold.appendChild(document.createElement('br'));
-	bold.appendChild(msgRetry);
-	display_results_node.appendChild(bold);
-
-	return;
+	display_msg("BUILDING...");
 
 }
-
 
 function process_request_and_search_similar_movies () {
 
 	if (tabMovie != null) {
-		process_request();
-		display_movie();
+		if (process_request()) {
+			if (results_display == "List")
+				display_movie_list();
+		}
 	}
 	if (this.imdbID != null) {
 		this.similarMoviesTab = new Array();
@@ -431,26 +421,26 @@ function perform_algorithm_similarities () {
 
 	}
 
-	for (var i = 0; i < this.similarMovies.length; i++) {
+	for (var i = 0; i < similarMovies.length; i++) {
 
-		if ((this.similarMovies[i].title.indexOf(this.titleM) >= 0) || (this.titleM.indexOf(this.similarMovies[i].title) >= 0)) {
-			this.similarMovies[i].overview = get_overview(this.similarMovies[i].id);
-			bestSimilarMovies.push(this.similarMovies[i]);
-			this.similarMovies.splice(i, 1);
+		if ((similarMovies[i].title.indexOf(this.titleM) >= 0) || (this.titleM.indexOf(this.similarMovies[i].title) >= 0)) {
+			this.similarMovies[i].overview = get_overview(similarMovies[i].id);
+			bestSimilarMovies.push(similarMovies[i]);
+			similarMovies.splice(i, 1);
 			number_similar_movies_obtains++;
 		}
 		else {
-			if (parseInt(this.similarMovies[i].vote_average) >= 7) {
-			this.similarMovies[i].overview = get_overview(this.similarMovies[i].id);
-			bestSimilarMovies.push(this.similarMovies[i]);
-			this.similarMovies.splice(i, 1);
+			if (parseInt(similarMovies[i].vote_average) >= 7) {
+			similarMovies[i].overview = get_overview(similarMovies[i].id);
+			bestSimilarMovies.push(similarMovies[i]);
+			similarMovies.splice(i, 1);
 			number_similar_movies_obtains++;
 			}
 		}
 
 	}
 
-	this.similarMovies = bestSimilarMovies;
+	similarMovies = bestSimilarMovies;
 
 }
 
