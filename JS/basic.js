@@ -527,6 +527,11 @@ function save_pdf_file () {
     var x = 20;
     var y = 20;
 
+    var number_movies_to_display = number_similar_movies;
+
+    if (number_similar_movies >  number_similar_movies_obtains)
+    	number_movies_to_display = number_similar_movies_obtains;
+
     doc.setFont("times", "bold");
 
     doc.text(x, y, "Movie: ");
@@ -539,16 +544,11 @@ function save_pdf_file () {
 
     doc.setFontStyle("bold");
 
-    doc.text(x, y, "Similar movies:");
+    doc.text(x, y, "Similar movies ("+number_movies_to_display+"):");
 
     doc.setFontStyle("normal");
 
     y += 15;
-
-    var number_movies_to_display = number_similar_movies;
-
-    if (number_similar_movies >  number_similar_movies_obtains)
-    	number_movies_to_display = number_similar_movies_obtains;
 
     for (var i = 0; i < number_movies_to_display; i++) {
 
@@ -559,7 +559,7 @@ function save_pdf_file () {
 
 		doc.setFontStyle("bold");
 
-		doc.text(x, y, similarMovies[i].title);
+		doc.text(x, y, i+": "+similarMovies[i].title);
 
 		doc.setFontStyle("normal");
 
