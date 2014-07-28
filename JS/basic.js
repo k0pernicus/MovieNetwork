@@ -2,6 +2,7 @@ var tabMovie = null;
 var similarMoviesTab = new Array();
 var interval;
 var number_similar_movies = 20;
+var results_display = null;
 var api_key = "";
 var bool_entry = false;
 var number_similar_movies_obtains = 0;
@@ -37,6 +38,8 @@ function similarMovie_object() {
 $('#submit_search').click(function()
 {
 	number_similar_movies = $("#number_movies_listed").val();
+	results_display = $('input[name=how_to_display_results]:checked', '#form_search_movie').val();
+	reset_all_variables();
 	search_movie();
     return false;
 });
