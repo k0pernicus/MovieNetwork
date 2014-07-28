@@ -50,6 +50,27 @@ $('#reset_search').click(function()
 	remove_all_child(display_results_node);
 });
 
+$('#save_pdf_file').click(function()
+{
+	save_pdf_file();
+})
+
+function reset_all_variables () {
+
+	tabMovie = null;
+	bool_entry = false;
+	number_similar_movies_obtains = 0;
+	this.imdbID = null;
+	this.titleM = null;
+	this.path_poster = null;
+	this.date = null;
+	this.popularity = null;
+	this.vote_average = null;
+	this.vote_count = null;
+	this.overview = null;
+
+}
+
 function reset_all_similar_movies_variables () {
 
 	this.similarMovies = new Array();
@@ -433,16 +454,63 @@ function perform_algorithm_similarities () {
 
 }
 
-/*
-Function which allows to validate form, search in the mdb database the movie, and give us the result 
-*/
-function search_movie () {
+function save_pdf_file () {
 
-	var movie = document.forms["form_search_movie"]["movie_searched"].value;
+	var specialElementHandlers = 
+        function (element,renderer) {
+            return true;
+        };
+                            
+    var doc = new jsPDF();
+    var pageHeight= doc.internal.pageSize.height;
+    
+    var x = 20;
+    var y = 20;
 
-	if (validate_form(movie)) {
-		send_search_mdb(movie);
-		interval = setInterval("process_request_and_search_similar_movies()", 500);
-	}
+    doc.setFont("times", "bold");
+
+    doc.text(x, y, "Movie: ");
+
+    doc.setFontStyle("normal");
+
+    doc.text(x + 20, y, this.titleM);
+
+    y += 15;
+
+    doc.setFontStyle("bold");
+
+    doc.text(x, y, "Similar movies:");
+
+    doc.setFontStyle("normal");
+
+    y += 15;
+
+    var number_movies_to_display = number_similar_movies;
+
+    if (number_similar_movies >  number_similar_movies_obtains)
+    	number_movies_to_display = number_similar_movies_obtains;
+
+    for (var i = 0; i < number_movies_to_display; i++) {
+
+		if ( (y + 20) >= pageHeight) {
+	  		doc.addPage();
+	  		y = 20; // Restart height position
+		}
+
+		doc.setFontStyle("bold");
+
+		doc.text(x, y, similarMovies[i].title);
+
+		doc.setFontStyle("normal");
+
+		y += 10;
+
+		doc.text(x, y, ""+similarMovies[i].date+"");
+
+		y += 20;
+
+    }
+
+    doc.save('MovieNetwork_'+this.titleM+'.pdf');
 
 }
