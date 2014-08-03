@@ -636,16 +636,49 @@ function save_pdf_file () {
 
 		doc.text(x, y, i+": "+similarMovies[i].title);
 
+		y += 10;
+
+		doc.text(x, y, ""+similarMovies[i].date+"");
+
 		doc.setFontStyle("normal");
 
 		y += 10;
 
-		doc.text(x, y, ""+similarMovies[i].date+"");
+		x = 40;
+
+		for (var j = 0; j < similarMovies[i].overview.length; j++) {
+			if (x >= (pageWidth - 20)) {
+				x = 40;
+				y += 10;
+			}
+			if ( (y + 30) >= pageHeight) {
+		  		doc.addPage();
+		  		y = 20; // Restart height position
+			}
+			var character = similarMovies[i].overview[j];
+			doc.text(x, y, character)
+			if (character == character.toLowerCase() && character != 'm' && character != 'w')
+				x+=2;
+			else {
+				if (character == character.toUpperCase()) {
+					if (character == 'M' || character == 'W')
+						x+=4.5
+					else
+						x+=3;
+				}
+				else  {
+					if (character.toLowerCase() == 'm' || character.toLowerCase() == 'w')
+						x+=4.5;
+				}
+			}
+		}
+
+		x = 20;
 
 		y += 20;
 
     }
 
-    doc.save('MovieNetwork_'+this.titleM+'.pdf');
+    doc.save('MovieNetwork_'+this.title+'.pdf');
 
 }
