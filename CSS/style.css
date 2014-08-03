@@ -50,7 +50,8 @@ a:visited {
 	margin-top:30px;
 }
 .navigation{
-	float: right;
+	/*float: right;*/
+	text-align: center;
 	list-style: none;
 	margin: 0;
 }
