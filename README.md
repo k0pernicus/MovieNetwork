@@ -25,7 +25,7 @@ TODO
 
 *	Design (Responsive, Parallax & beautiful) : **DONE**
 *	Database of movies : usage of themoviedb ([http://www.themoviedb.org](http://www.themoviedb.org)) -> **NEED AN API_KEY**
-*	Full forms : **DONE**
+*	Full forms : **DONE -> WITH PREDICTIVE SEARCH**
 *	Algorithm of similarities : usage of themoviedb + enhancement overlay -> **DONE**
 *	Display results (graph & list) : **LIST: DONE -- GRAPH: CURRENTLY**
 *	Output PDF : **DONE**
