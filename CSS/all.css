@@ -16,3 +16,15 @@ input#movie_searched {
 	text-align: center;
 
 }
+
+li {
+
+	list-style-type: none;
+
+}
+
+#list_choice_movie:hover {
+
+	background-color: #f68f67;
+	
+}
