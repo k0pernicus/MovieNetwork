@@ -173,22 +173,6 @@ function display_save_file_button (bool) {
 }
 
 /*
-Function which allows to validate form, search in the mdb database the movie, and give us the result 
-*/
-function search_movie () {
-
-	var movie = document.forms["form_search_movie"]["movie_searched"].value;
-
-	if (validate_form(movie)) {
-		send_search_mdb(movie);
-		interval = setInterval("process_request_and_search_similar_movies()", 500);
-	}
-	else
-		display_save_file_button(false)
-
-}
-
-/*
 Function which allows to build/make an http_object
 XMLHttpRequest -> Firefox/Chrome/Safari/InternetExplorer(7/8+)
 Msxml2 -> Bad Internet Explorer
@@ -206,6 +190,37 @@ function make_http_object() {
 }
 
 /*
+Function which allows to validate form, search in the mdb database the movie, and give us the result 
+*/
+function search_movie () {
+
+	var movie = document.forms["form_search_movie"]["movie_searched"].value;
+
+	if (validate_form(movie)) {
+		send_search_mdb(movie);
+		interval = setInterval("process_request_and_search_similar_movies()", 500);
+	}
+	else
+		display_save_file_button(false)
+
+}
+
+function process_request_and_search_similar_movies () {
+
+	if (tabMovie != null) {
+		if (process_request()) {
+			if (results_display == "List")
+				display_movie_list();
+		}
+	}
+	if (this.id != null) {
+		this.similarMoviesTab = new Array();
+		search_similar_movies(1);
+	}
+
+}
+
+/*
 Function which allows to search in the Movie Database the movie giving in parameter
 */
 function send_search_mdb (movie) {
@@ -217,11 +232,38 @@ function send_search_mdb (movie) {
 
 	http_request.onreadystatechange = function () {
   		if (this.readyState === 4) {
-		    tabMovie = eval( '('+this.responseText+')');
+		    tabMovie = eval( '('+this.responseText+')' );
 		}
 	};
 
 	http_request.send(JSON.stringify(http_request.responseText));
+}
+
+/*
+Function which allows to process the request -> search the movie into the tab (default 0), extract name, date, etc...
+*/
+function process_request () {
+
+	if (tabMovie.results.length != 0) {
+		interval = clearInterval(interval);
+		this.id = tabMovie.results[0].id;
+		this.title = tabMovie.results[0].title;
+		this.date = tabMovie.results[0].release_date;
+		this.path_poster = tabMovie.results[0].poster_path;
+		this.popularity = tabMovie.results[0].popularity;
+		this.vote_average = tabMovie.results[0].vote_average;
+		this.vote_count = tabMovie.results[0].vote_count;
+
+		this.overview = get_overview(this.id);
+
+		return true;
+	}
+	else {
+		display_no_movie();
+		display_save_file_button(false);
+		return false;
+	}
+
 }
 
 function get_overview (id) {
@@ -261,6 +303,25 @@ function display_msg (msg) {
 
 }
 
+function display_no_movie () {
+
+	interval = clearInterval(interval);
+
+	var display_results_node = document.getElementById('display_results');
+	remove_all_child(display_results_node);
+
+	var bold = document.createElement('b');
+
+	var msg = document.createTextNode("No movie found...");
+	var msgRetry = document.createTextNode("Please to retry with an other title.");
+
+	bold.appendChild(msg);
+	bold.appendChild(document.createElement('br'));
+	bold.appendChild(msgRetry);
+	display_results_node.appendChild(bold);
+
+}
+
 function display_movie_list () {
 
 	var display_results_node = document.getElementById('display_results');
@@ -270,7 +331,7 @@ function display_movie_list () {
 	var bold = document.createElement('b');
 
 	var intro = document.createTextNode("Result:");
-	var title = document.createTextNode(this.titleM);
+	var title = document.createTextNode(this.title);
 	var year = this.date.split("-");
 	var date = document.createTextNode(year[0]);
 
@@ -294,132 +355,34 @@ function display_movie_list () {
 	display_results_node.appendChild(document.createElement('br'));
 	display_results_node.appendChild(document.createElement('br'));
 
-	display_msg("Building! Please wait...");
-
-}
-
-function display_no_movie () {
-
-	interval = clearInterval(interval);
-
-	var display_results_node = document.getElementById('display_results');
-	remove_all_child(display_results_node);
-
-	var bold = document.createElement('b');
-
-	var msg = document.createTextNode("No movie found...");
-	var msgRetry = document.createTextNode("Please to retry with an other title.");
-
-	bold.appendChild(msg);
-	bold.appendChild(document.createElement('br'));
-	bold.appendChild(msgRetry);
-	display_results_node.appendChild(bold);
-
-}
-
-function display_all_movies_list() {
-
-	var display_results_node = document.getElementById('display_results');
-
-	var center = document.createElement('center');
-	var h3 = document.createElement('h3');
-	var table = document.createElement('table');
-	var caption = document.createElement('caption');
-	var th = document.createElement('th');
-	var tr = document.createElement('tr');
-	var td = document.createElement('td');
-
-	var intro = document.createTextNode("Similar movies ("+number_similar_movies_obtains+"): ");
-
-	h3.appendChild(intro);
-	caption.appendChild(h3);
-	table.appendChild(caption);
-	th.style.textAlign = 'left';
-	th.appendChild(document.createTextNode("Title"));
-	table.appendChild(th);
-	th = document.createElement('th');
-	th.style.textAlign = 'left';
-	th.appendChild(document.createTextNode("Release date"));
-	table.appendChild(th);
-	for (var i = 0; i < (number_similar_movies > number_similar_movies_obtains? number_similar_movies_obtains : number_similar_movies); i++) {
-		tr = document.createElement('tr');
-		td = document.createElement('td');
-		var title = similarMovies[i].title;
-		var path_poster = similarMovies[i].path_poster;
-		if (path_poster != "" && path_poster != null && typeof(path_poster) != "undefined") {
-			var poster = document.createElement('a');
-			poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+similarMovies[i].path_poster);
-			poster.setAttribute('data-lightbox', 'poster_similar_movie');
-			poster.setAttribute('data-title', similarMovies[i].overview);
-			poster.appendChild(document.createTextNode(title));
-			td.appendChild(poster);
-		}
-		else {
-			td.appendChild(document.createTextNode(title));
-		}
-		tr.appendChild(td);
-		td = document.createElement('td');
-		if (typeof(similarMovies[i].date) != "undefined" && similarMovies[i].date != null) {
-			var date = similarMovies[i].date.split("-");
-			td.appendChild(document.createTextNode(date[0]));
-		}
-		tr.appendChild(td);
-		table.appendChild(tr);
-	}
-
-	center.appendChild(table);
-
-	document.getElementById("msg_waiting").remove();
-
-	display_results_node.appendChild(center);
+	display_msg("Computing! Please wait...");
 
 }
 
 function display_all_movies_graph () {
 
-	display_msg("BUILDING...");
+	display_msg("Building! Still alpha...");
 
-}
+	/*
 
-function process_request_and_search_similar_movies () {
+	force = d3.layout.force()
+    			.charge(-320)
+    			.size( [width, height] )
+    			.linkStrength( function(d,idx) { return d.weight; } );
 
-	if (tabMovie != null) {
-		if (process_request()) {
-			if (results_display == "List")
-				display_movie_list();
-		}
-	}
-	if (this.imdbID != null) {
-		this.similarMoviesTab = new Array();
-		search_similar_movies(1);
-	}
+	var svg = d3.select('#display_results')
+				.append('svg:svg')
+				.attr('xmlns','http://www.w3.org/2000/svg')
+			    .attr("width", width)
+			    .attr("height", height)
+			    .attr("id","graph_vizu")
+			    .attr("viewBox", "0 0 " + width + " " + height )
+			    .attr("preserveAspectRatio", "xMidYMid meet");
 
-}
+	d3.json(
 
-/*
-Function which allows to process the request -> search the movie into the tab (default 0), extract name, date, etc...
+	)
 */
-function process_request () {
-
-	if (tabMovie.results.length != 0) {
-		interval = clearInterval(interval);
-		this.imdbID = tabMovie.results[0].id;
-		this.titleM = tabMovie.results[0].title;
-		this.date = tabMovie.results[0].release_date;
-		this.path_poster = tabMovie.results[0].poster_path;
-		this.popularity = tabMovie.results[0].popularity;
-		this.vote_average = tabMovie.results[0].vote_average;
-		this.vote_count = tabMovie.results[0].vote_count;
-
-		this.overview = get_overview(this.imdbID);
-
-		return true;
-	}
-	else {
-		display_no_movie();
-		display_save_file_button(false);
-		return false;
-	}
 
 }
 
@@ -429,7 +392,7 @@ param page_number -> number of the page to search (default: 1)
 */
 function search_similar_movies (page_number) {
 
-	if (this.imdbID != null) {
+	if (this.id != null) {
 
 		interval = clearInterval(interval);
 
@@ -437,7 +400,7 @@ function search_similar_movies (page_number) {
 
 		var http_request = make_http_object();
 
-		http_request.open("GET", "https://api.themoviedb.org/3/movie/"+this.imdbID+"/similar?page="+page_number+"&api_key="+api_key);
+		http_request.open("GET", "https://api.themoviedb.org/3/movie/"+this.id+"/similar?page="+page_number+"&api_key="+api_key);
 
 		http_request.setRequestHeader('Accept', 'application/json');
 
@@ -514,11 +477,11 @@ function perform_algorithm_similarities () {
 	/*
 	Management of unique case like "Harry Potter" -> search first position "Harry" in "Harry Potter and the chamber of secrets", and not "Harry Potter and the philosopher's stone" in "Harry potter and the chamber of secrets" (-> GAME OVER)
 	*/
-	var first_part_title = this.titleM.split(' ')[0];
+	var first_part_title = this.title.split(' ')[0];
 
 	for (var i = 0; i < this.tabMovie.results.length; i++) {
 
-		if (((this.tabMovie.results[i].title.indexOf(first_part_title) == 0) || (this.titleM.indexOf(this.tabMovie.results[i].title) == 0)) && ((this.titleM != this.tabMovie.results[i].title) || (this.date != this.tabMovie.results[i].release_date))) {
+		if (((this.tabMovie.results[i].title.indexOf(first_part_title) == 0) || (this.title.indexOf(this.tabMovie.results[i].title) == 0)) && ((this.title != this.tabMovie.results[i].title) || (this.date != this.tabMovie.results[i].release_date))) {
 
 			var similarMovie = new similarMovie_object();
 
@@ -545,7 +508,7 @@ function perform_algorithm_similarities () {
 
 	for (var i = 0; i < this.tabMovie.results.length; i++) {
 
-		if ((this.tabMovie.results[i].title.indexOf(this.titleM) > 0) || (this.titleM.indexOf(this.tabMovie.results[i].title) > 0)) {
+		if ((this.tabMovie.results[i].title.indexOf(this.title) > 0) || (this.title.indexOf(this.tabMovie.results[i].title) > 0)) {
 			
 			var similarMovie = new similarMovie_object();
 
@@ -568,7 +531,7 @@ function perform_algorithm_similarities () {
 
 	for (var i = 0; i < similarMovies.length; i++) {
 
-		if ((similarMovies[i].title.indexOf(this.titleM) >= 0) || (this.titleM.indexOf(this.similarMovies[i].title) >= 0)) {
+		if ((similarMovies[i].title.indexOf(this.title) >= 0) || (this.title.indexOf(this.similarMovies[i].title) >= 0)) {
 			this.similarMovies[i].overview = get_overview(similarMovies[i].id);
 			bestSimilarMovies.push(similarMovies[i]);
 			similarMovies.splice(i, 1);
@@ -589,6 +552,64 @@ function perform_algorithm_similarities () {
 
 }
 
+function display_all_movies_list() {
+
+	var display_results_node = document.getElementById('display_results');
+
+	var center = document.createElement('center');
+	var h3 = document.createElement('h3');
+	var table = document.createElement('table');
+	var caption = document.createElement('caption');
+	var th = document.createElement('th');
+	var tr = document.createElement('tr');
+	var td = document.createElement('td');
+
+	var intro = document.createTextNode("Similar movies ("+number_similar_movies_obtains+"): ");
+
+	h3.appendChild(intro);
+	caption.appendChild(h3);
+	table.appendChild(caption);
+	th.style.textAlign = 'left';
+	th.appendChild(document.createTextNode("Title"));
+	table.appendChild(th);
+	th = document.createElement('th');
+	th.style.textAlign = 'left';
+	th.appendChild(document.createTextNode("Release date"));
+	table.appendChild(th);
+	for (var i = 0; i < (number_similar_movies > number_similar_movies_obtains? number_similar_movies_obtains : number_similar_movies); i++) {
+		tr = document.createElement('tr');
+		td = document.createElement('td');
+		var title = similarMovies[i].title;
+		var path_poster = similarMovies[i].path_poster;
+		if (path_poster != "" && path_poster != null && typeof(path_poster) != "undefined") {
+			var poster = document.createElement('a');
+			poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+similarMovies[i].path_poster);
+			poster.setAttribute('data-lightbox', 'poster_similar_movie');
+			poster.setAttribute('data-title', similarMovies[i].overview);
+			poster.appendChild(document.createTextNode(title));
+			td.appendChild(poster);
+		}
+		else {
+			td.appendChild(document.createTextNode(title));
+		}
+		tr.appendChild(td);
+		td = document.createElement('td');
+		if (typeof(similarMovies[i].date) != "undefined" && similarMovies[i].date != null) {
+			var date = similarMovies[i].date.split("-");
+			td.appendChild(document.createTextNode(date[0]));
+		}
+		tr.appendChild(td);
+		table.appendChild(tr);
+	}
+
+	center.appendChild(table);
+
+	document.getElementById("msg_waiting").remove();
+
+	display_results_node.appendChild(center);
+
+}
+
 function save_pdf_file () {
 
 	var specialElementHandlers = 
@@ -598,6 +619,9 @@ function save_pdf_file () {
                             
     var doc = new jsPDF();
     var pageHeight= doc.internal.pageSize.height;
+    var pageWidth = doc.internal.pageSize.width;
+
+    console.log(pageWidth);
     
     var x = 20;
     var y = 20;
@@ -613,7 +637,7 @@ function save_pdf_file () {
 
     doc.setFontStyle("normal");
 
-    doc.text(x + 20, y, this.titleM);
+    doc.text(x + 20, y, this.title);
 
     y += 15;
 
@@ -627,7 +651,7 @@ function save_pdf_file () {
 
     for (var i = 0; i < number_movies_to_display; i++) {
 
-		if ( (y + 20) >= pageHeight) {
+		if ( (y + 30) >= pageHeight) {
 	  		doc.addPage();
 	  		y = 20; // Restart height position
 		}
