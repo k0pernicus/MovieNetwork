@@ -35,6 +35,68 @@ function similarMovie_object() {
 	this.overview = null;
 }
 
+/*
+Graph variables
+*/
+var height = 500;
+var width = 500;
+var coordinates = {
+	x : 0,
+	y : 0
+};
+var zoom = 1.0;
+var xScale = d3.scale.linear()
+    .domain([0, width])
+    .range([0, width]);
+var yScale = d3.scale.linear()
+    .domain([0, height])
+    .range([0, height]);
+var zoomScale = d3.scale.linear()
+    .domain([1,6])
+    .range([1,6])
+    .clamp(true);
+var d3force = null;
+
+/*
+Actions
+*/
+
+/*
+Predictive action (for movie title search only)
+*/
+$(function(){
+var suggestions = [];
+$( "#movie_searched" ).autocomplete({
+	minLength: 2,
+	scrollHeight: 220, 
+	source: function(req, add){
+		$.ajax({
+		url:'https://api.themoviedb.org/3/search/movie?api_key=API_KEY&',
+		type:"get",
+		dataType: 'json',
+		data: 'query='+req.term,
+		async: true,
+		cache: true,
+		success: function(data){
+			data = data.results;
+			add($.map(data, function(item, i) {
+	                return {
+	                    title : item.title,
+	                    date : item.release_date
+	                }
+            }));
+        }
+    });
+    },
+    focus : function(event, ui) {
+        $(this).val(ui.item.id);
+        return false;
+    },
+}).data("ui-autocomplete")._renderItem = function (ul, item) {
+    return $("<li></li>").data("item.autocomplete", item).attr("id", "list_choice_movie").append(item.title+" ("+item.date+")").on('click', function(e) {$( "#movie_searched" ).val(item.title);}).appendTo(ul.addClass('list-row'));
+};
+});
+
 $('#submit_search').click(function()
 {
 	number_similar_movies = $("#number_movies_listed").val();
@@ -68,6 +130,15 @@ function reset_all_variables () {
 	this.vote_average = null;
 	this.vote_count = null;
 	this.overview = null;
+
+	height = 500;
+	width = 500;
+	coordinates = {
+	x : 0,
+	y : 0
+	};
+	zoom = 1.0;
+	d3force = null;
 
 }
 
