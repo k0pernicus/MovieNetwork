@@ -47,7 +47,7 @@ slide.waypoint(function (direction) {
     function goToByScroll(dataslide, menuHeight) {
         htmlbody.animate({
             scrollTop: $('.slide[data-slide="' + dataslide + '"]').offset().top - menuHeight
-        }, 1750, 'easeInOutQuint');        
+        }, 1450, 'easeInOutQuint');        
     }
 
     links.click(function (e) {
