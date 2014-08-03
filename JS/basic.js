@@ -7,10 +7,10 @@ var api_key = "";
 var bool_entry = false;
 var number_similar_movies_obtains = 0;
 
-this.imdbID = null;
-this.titleM = null;
-this.path_poster = null;
+this.id = null;
+this.title = null;
 this.date = null;
+this.path_poster = null;
 this.popularity = null;
 this.vote_average = null;
 this.vote_count = null;
@@ -117,13 +117,17 @@ $('#save_pdf_file').click(function()
 	save_pdf_file();
 })
 
+/*
+Functions
+*/
+
 function reset_all_variables () {
 
 	tabMovie = null;
 	bool_entry = false;
 	number_similar_movies_obtains = 0;
-	this.imdbID = null;
-	this.titleM = null;
+	this.id = null;
+	this.title = null;
 	this.path_poster = null;
 	this.date = null;
 	this.popularity = null;
