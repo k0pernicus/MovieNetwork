@@ -292,6 +292,9 @@ function remove_all_child (document) {
 
 function display_msg (msg) {
 
+	if (document.getElementById('msg_waiting') != null)
+		document.getElementById('msg_waiting').remove();
+
 	var display_results_node = document.getElementById('display_results');
 
 	var h1 = document.createElement('h1');
