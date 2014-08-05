@@ -1,3 +1,9 @@
+input {
+
+	text-align: center;
+
+}
+
 input#movie_searched {
 
 	width: 600px;
