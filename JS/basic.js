@@ -438,6 +438,8 @@ function process_all_similar_movies () {
 
 		reset_all_similar_movies_variables();
 
+		display_msg("Processing! Please wait...");
+
 		for (var i = 0; i < similarMoviesTab.length; i++) {
 
 			for (var j = 0; j < similarMoviesTab[i].results.length; j++) {
@@ -472,6 +474,8 @@ function process_all_similar_movies () {
 }
 
 function perform_algorithm_similarities () {
+
+	display_msg("Performing! Please wait...");
 
 	number_similar_movies_obtains = 0;
 
@@ -550,6 +554,8 @@ function perform_algorithm_similarities () {
 		}
 
 	}
+
+	display_msg("Ready to display!");
 
 	similarMovies = bestSimilarMovies;
 
