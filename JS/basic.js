@@ -554,6 +554,12 @@ function perform_algorithm_similarities () {
 
 }
 
+function addOverviewTo(i) {
+
+	similarMovies[i].overview = get_overview(similarMovies[i].id);
+
+}
+
 function display_all_movies_list() {
 
 	var display_results_node = document.getElementById('display_results');
@@ -586,6 +592,7 @@ function display_all_movies_list() {
 		if (path_poster != "" && path_poster != null && typeof(path_poster) != "undefined") {
 			var poster = document.createElement('a');
 			poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+similarMovies[i].path_poster);
+			poster.setAttribute('onclick', addOverviewTo(i));
 			poster.setAttribute('data-lightbox', 'poster_similar_movie');
 			poster.setAttribute('data-title', similarMovies[i].overview);
 			poster.appendChild(document.createTextNode(title));
@@ -672,7 +679,10 @@ function save_pdf_file () {
 
 		x = 40;
 
+		addOverviewTo(i);
+
 		for (var j = 0; j < similarMovies[i].overview.length; j++) {
+
 			if (x >= (pageWidth - 20)) {
 				x = 40;
 				y += 10;
