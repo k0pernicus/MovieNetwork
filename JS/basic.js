@@ -82,7 +82,7 @@ $( "#movie_searched" ).autocomplete({
 			add($.map(data, function(item, i) {
 	                return {
 	                    title : item.title,
-	                    date : item.release_date
+	                    date : item.release_date.split('-')[0]
 	                }
             }));
         }
