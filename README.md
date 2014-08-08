@@ -23,11 +23,21 @@ _Next: D3JS._
 TODO
 ----
 
+*	Save all results in JSON file
+*	Graph display with **D3JS**
+*	Open movie API like omdb?
+*	Better output PDF
+*	Drink some coke : **AGAIN, AGAIN, AGAIN, ...**
+
+
+DONE
+----
+
 *	Design (Responsive, Parallax & beautiful) : **DONE**
 *	Database of movies : usage of themoviedb ([http://www.themoviedb.org](http://www.themoviedb.org)) -> **NEED AN API_KEY**
 *	Full forms : **DONE -> WITH PREDICTIVE SEARCH**
 *	Algorithm of similarities : usage of themoviedb + enhancement overlay -> **DONE**
-*	Display results (graph & list) : **LIST: DONE -- GRAPH: NEXT VERSION**
+*	Display results : **LIST: DONE -- GRAPH: NEXT VERSION**
 *	Output PDF : **DONE**
 *	Ajax script to display some available movie names to the user, when typing : **DONE**
 *	Put online : **DONE --> http://www.movie-network.net**
