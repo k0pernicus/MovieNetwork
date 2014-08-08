@@ -366,27 +366,6 @@ function display_all_movies_graph () {
 
 	display_msg("Building! Still alpha...");
 
-	/*
-
-	force = d3.layout.force()
-    			.charge(-320)
-    			.size( [width, height] )
-    			.linkStrength( function(d,idx) { return d.weight; } );
-
-	var svg = d3.select('#display_results')
-				.append('svg:svg')
-				.attr('xmlns','http://www.w3.org/2000/svg')
-			    .attr("width", width)
-			    .attr("height", height)
-			    .attr("id","graph_vizu")
-			    .attr("viewBox", "0 0 " + width + " " + height )
-			    .attr("preserveAspectRatio", "xMidYMid meet");
-
-	d3.json(
-
-	)
-*/
-
 }
 
 /*
