@@ -6,6 +6,8 @@ What is that thing?
 
 **MovieNetwork** is a website which allows to display (by a **list**, or by a **graph**) similar movies, from one you like.
 
+Beta version available (list display) : [http://www.movie-network.net](http://www.movie-network.net)
+
 Programming languages
 ---------------------
 
