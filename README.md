@@ -8,6 +8,8 @@ What is that thing?
 
 Beta version available (list display) : [http://www.movie-network.net](http://www.movie-network.net)
 
+Blog : [http://www.blog.movie-network.net](http://www.blog.movie-network.net)
+
 Programming languages
 ---------------------
 
