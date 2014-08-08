@@ -43,7 +43,7 @@ DONE
 *	Output PDF : **DONE**
 *	Ajax script to display some available movie names to the user, when typing : **DONE**
 *	Put online : **DONE --> http://www.movie-network.net**
-*	Drink some coke : **ALLWAYS (AND FOREVER <3)**
+*	Drink some coke : **FOREVER <3**
 
 License
 -------
