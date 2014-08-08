@@ -82,18 +82,18 @@ $( "#movie_searched" ).autocomplete({
 			add($.map(data, function(item, i) {
 	                return {
 	                    title : item.title,
-	                    date : item.release_date
+	                    date : item.release_date.split('-')[0]
 	                }
             }));
         }
     });
     },
     focus : function(event, ui) {
-        $(this).val(ui.item.id);
+        $(this).val(ui.item.title);
         return false;
     },
 }).data("ui-autocomplete")._renderItem = function (ul, item) {
-    return $("<li></li>").data("item.autocomplete", item).attr("id", "list_choice_movie").append(item.title+" ("+item.date+")").on('click', function(e) {$( "#movie_searched" ).val(item.title);}).appendTo(ul.addClass('list-row'));
+    return $("<li></li>").data("item.autocomplete", item).attr("id", "list_choice_movie").append("<b>"+item.title+"</b> ("+item.date+")").on('click', function(e) {$( "#movie_searched" ).val(item.title);}).appendTo(ul.addClass('list-row'));
 };
 });
 
@@ -276,7 +276,7 @@ function get_overview (id) {
 
 	http_request.send(null/*JSON.stringify(http_request.responseText)*/);
 
-	if (http_request.readyState == 4) {
+	if (http_request.readyState == 4 && http_request.status == 200) {
 		var obj = eval( '('+http_request.responseText+')');
 		return obj.overview;
 	}
@@ -344,7 +344,6 @@ function display_movie_list () {
 	if (this.path_poster != "" && this.path_poster != null && typeof(this.path_poster) != "undefined") {
 		var poster = document.createElement('a');
 		poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+this.path_poster);
-		poster.setAttribute('onclick', "refresh_overview(); return false;");
 		poster.setAttribute('data-lightbox', 'poster_principle_movie');
 		poster.setAttribute('data-title', this.overview);
 		poster.appendChild(title);
@@ -479,8 +478,6 @@ function perform_algorithm_similarities () {
 			similarMovie.vote_average = this.tabMovie.results[i].vote_average;
 			similarMovie.vote_count = this.tabMovie.results[i].vote_count;
 
-			similarMovie.overview = get_overview(similarMovie.id);
-
 			bestSimilarMovies.push(similarMovie);
 
 			this.tabMovie.results.slice(i, 1);
@@ -506,8 +503,6 @@ function perform_algorithm_similarities () {
 			similarMovie.vote_average = this.tabMovie.results[i].vote_average;
 			similarMovie.vote_count = this.tabMovie.results[i].vote_count;
 
-			similarMovie.overview = get_overview(similarMovie.id);
-
 			bestSimilarMovies.push(similarMovie);
 
 			number_similar_movies_obtains++;
@@ -518,14 +513,12 @@ function perform_algorithm_similarities () {
 	for (var i = 0; i < similarMovies.length; i++) {
 
 		if ((similarMovies[i].title.indexOf(this.title) >= 0) || (this.title.indexOf(this.similarMovies[i].title) >= 0)) {
-			this.similarMovies[i].overview = get_overview(similarMovies[i].id);
 			bestSimilarMovies.push(similarMovies[i]);
 			similarMovies.splice(i, 1);
 			number_similar_movies_obtains++;
 		}
 		else {
 			if (parseInt(similarMovies[i].vote_average) >= 7) {
-			similarMovies[i].overview = get_overview(similarMovies[i].id);
 			bestSimilarMovies.push(similarMovies[i]);
 			similarMovies.splice(i, 1);
 			number_similar_movies_obtains++;
@@ -534,9 +527,15 @@ function perform_algorithm_similarities () {
 
 	}
 
-	display_msg("Ready to display!");
+	display_msg("End of performing...");
 
 	similarMovies = bestSimilarMovies;
+
+}
+
+function addOverviewTo(i) {
+
+	similarMovies[i].overview = get_overview(similarMovies[i].id);
 
 }
 
@@ -572,6 +571,7 @@ function display_all_movies_list() {
 		if (path_poster != "" && path_poster != null && typeof(path_poster) != "undefined") {
 			var poster = document.createElement('a');
 			poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+similarMovies[i].path_poster);
+			poster.setAttribute('onclick', addOverviewTo(i));
 			poster.setAttribute('data-lightbox', 'poster_similar_movie');
 			poster.setAttribute('data-title', similarMovies[i].overview);
 			poster.appendChild(document.createTextNode(title));
@@ -658,7 +658,10 @@ function save_pdf_file () {
 
 		x = 40;
 
+		addOverviewTo(i);
+
 		for (var j = 0; j < similarMovies[i].overview.length; j++) {
+
 			if (x >= (pageWidth - 20)) {
 				x = 40;
 				y += 10;
