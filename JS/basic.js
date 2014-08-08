@@ -89,11 +89,11 @@ $( "#movie_searched" ).autocomplete({
     });
     },
     focus : function(event, ui) {
-        $(this).val(ui.item.id);
+        $(this).val(ui.item.title);
         return false;
     },
 }).data("ui-autocomplete")._renderItem = function (ul, item) {
-    return $("<li></li>").data("item.autocomplete", item).attr("id", "list_choice_movie").append(item.title+" ("+item.date+")").on('click', function(e) {$( "#movie_searched" ).val(item.title);}).appendTo(ul.addClass('list-row'));
+    return $("<li></li>").data("item.autocomplete", item).attr("id", "list_choice_movie").append("<b>"+item.title+"</b> ("+item.date+")").on('click', function(e) {$( "#movie_searched" ).val(item.title);}).appendTo(ul.addClass('list-row'));
 };
 });
 
