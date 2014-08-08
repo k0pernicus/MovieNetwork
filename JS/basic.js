@@ -276,7 +276,7 @@ function get_overview (id) {
 
 	http_request.send(null/*JSON.stringify(http_request.responseText)*/);
 
-	if (http_request.readyState == 4) {
+	if (http_request.readyState == 4 && http_request.status == 200) {
 		var obj = eval( '('+http_request.responseText+')');
 		return obj.overview;
 	}
