@@ -548,7 +548,7 @@ function perform_algorithm_similarities () {
 
 	}
 
-	display_msg("Ready to display!");
+	display_msg("End of performing...");
 
 	similarMovies = bestSimilarMovies;
 
