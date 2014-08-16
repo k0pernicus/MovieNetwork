@@ -1,6 +1,6 @@
 var tabMovie = null;
 var interval;
-var number_similar_movies = 20;
+var number_similar_movies = 25;
 var results_display = null;
 var api_key = "f5dbc30b9b6055d3e85d063550790802";
 var bool_entry = false;
@@ -11,72 +11,54 @@ var similarMoviesTab = new Array();
 var similarMovies = new Array();
 
 /*
-Predictive action (for movie title search only)
+Action when submit button is down
 */
-$(function(){
-var suggestions = [];
-$( "#movie_searched" ).autocomplete({
-	minLength: 2,
-	scrollHeight: 220, 
-	source: function(req, add){
-		$.ajax({
-		url:'https://api.themoviedb.org/3/search/movie?api_key=f5dbc30b9b6055d3e85d063550790802&',
-		type:"get",
-		dataType: 'json',
-		data: 'query='+req.term,
-		async: true,
-		cache: true,
-		success: function(data){
-			data = data.results;
-			add($.map(data, function(item, i) {
-	                return {
-	                    title : item.title,
-	                    date : item.release_date.split('-')[0]
-	                }
-            }));
-        }
-    });
-    },
-    focus : function(event, ui) {
-        $(this).val(ui.item.title);
-        return false;
-    },
-}).data("ui-autocomplete")._renderItem = function (ul, item) {
-    return $("<li></li>").data("item.autocomplete", item).attr("id", "list_choice_movie").append(item.title+" ("+item.date+")").on('click', function(e) {$( "#movie_searched" ).val(item.title);}).appendTo(ul.addClass('list-row'));
-};
-});
-
 $('#submit_search').click(function()
 {
+	//Clean results div
 	remove_all_display_results();
+	//Search the number of similar movies the user want to display
 	number_similar_movies = $("#number_movies_listed").val();
+	//Search the display method (Graph, List, ...)
 	results_display = $('input[name=how_to_display_results]:checked', '#form_search_movie').val();
+	//Reset all variables and objects
 	reset_all_variables();
+	//Search the movie
 	search_movie();
+	//Don't load the homepage again -> False
     return false;
 });
 
+/*
+Action when reset button is down
+*/
 $('#reset_search').click(function()
 {
+	//Clean results div
 	remove_all_display_results();
+	//Hide the "save_pdf_file" button
 	display_save_file_button(false);
 });
 
+/*
+Action when the "save_pdf_file" button is down
+*/
 $('#save_pdf_file').click(function()
 {
+	//Function to call when we want to save a pdf file
 	save_pdf_file(first_movie, number_similar_movies, number_similar_movies_obtains, similarMovies);
 })
 
 /*
-Functions
+Reset Functions
 */
-
 function reset_all_variables () {
 
 	tabMovie = null;
 	bool_entry = false;
 	number_similar_movies_obtains = 0;
 	first_movie.reset();
+	reset_all_similar_movies_variables();
 
 }
 
@@ -102,126 +84,8 @@ function remove_all_display_results () {
 }
 
 /*
-Function which allows to validate a form
+GET Functions
 */
-function validate_form (movie) {
-	if (movie == null || movie == "") {
-		alert("You have to add the name of the movie...");
-		return false;
-	}
-	return true;
-}
-
-function display_save_file_button (bool) {
-
-	if (bool) {
-		document.getElementById("save_pdf_file").style.display = "inline";
-		document.getElementById("save_pdf_file").setAttribute("class", "pure-button pure-button-primary");
-	}
-	else {
-		document.getElementById("save_pdf_file").setAttribute("class", "pure-button pure-button-disabled");
-		document.getElementById("save_pdf_file").style.display = "none";
-	}
-
-}
-
-/*
-Function which allows to build/make an http_object
-XMLHttpRequest -> Firefox/Chrome/Safari/InternetExplorer(7/8+)
-Msxml2 -> Bad Internet Explorer
-Microsoft -> Really bad Internet Explorer
-*/
-function make_http_object() {
-  try {return new XMLHttpRequest();}
-  catch (error) {}
-  try {return new ActiveXObject("Msxml2.XMLHTTP");}
-  catch (error) {}
-  try {return new ActiveXObject("Microsoft.XMLHTTP");}
-  catch (error) {}
-
-  throw new Error("Creation of the HTTP request object is not OK...");
-}
-
-/*
-Function which allows to validate form, search in the mdb database the movie, and give us the result 
-*/
-function search_movie () {
-
-	var movie = document.forms["form_search_movie"]["movie_searched"].value;
-
-	if (validate_form(movie)) {
-		send_search_mdb(movie);
-		process_request_and_search_similar_movies();
-	}
-	else
-		display_save_file_button(false)
-
-}
-
-function process_request_and_search_similar_movies () {
-
-	// -> process the input movie
-	if (process_request()) {
-		if (results_display == "List")
-			display_movie_list();
-	}
-	else
-		return;
-	// -> process the similar movies
-	search_similar_movies(1);
-
-}
-
-/*
-Function which allows to search in the Movie Database the movie giving in parameter
-*/
-function send_search_mdb (movie) {
-	var http_request = make_http_object();
-
-	http_request.open("GET", "https://api.themoviedb.org/3/search/movie?query="+movie+"&api_key="+api_key, false);
-
-	http_request.setRequestHeader('Accept', 'application/json');
-
-	http_request.onreadystatechange = function () {
-  		if (this.readyState === 4 && http_request.status == 200) {
-		    tabMovie = eval( '('+this.responseText+')' );
-		}
-	};
-
-	http_request.send(JSON.stringify(http_request.responseText));
-}
-
-/*
-Function which allows to process the request -> search the movie into the tab (default 0), extract name, date, etc...
-*/
-function process_request () {
-
-	if (tabMovie.results.length != 0) {
-		interval = clearInterval(interval);
-		first_movie.set_id(tabMovie.results[0].id);
-		first_movie.set_title(tabMovie.results[0].title);
-		first_movie.set_date(tabMovie.results[0].release_date);
-		first_movie.set_path_poster(tabMovie.results[0].poster_path);
-		first_movie.set_popularity(tabMovie.results[0].popularity);
-		first_movie.set_vote_average(tabMovie.results[0].vote_average);
-		first_movie.set_vote_count(tabMovie.results[0].vote_count);
-
-		/*Get crew + overview*/
-		var crewMovie = get_overview(first_movie.id);
-		first_movie.set_overview(crewMovie.overview);
-		first_movie.set_director(get_director(crewMovie));
-		first_movie.set_collection(crewMovie.belongs_to_collection);
-
-		/*Function OK*/
-		return true;
-	}
-	else {
-		display_no_movie();
-		display_save_file_button(false);
-		return false;
-	}
-
-}
 
 function get_overview (id) {
 
@@ -293,6 +157,122 @@ function get_collection () {
 	if (http_request.readyState == 4 && http_request.status == 200) {
 		var obj = eval( '('+http_request.responseText+')');
 		return obj;
+	}
+
+}
+
+/*
+Function which allows to validate a form
+*/
+function validate_form (movie) {
+	if (movie == null || movie == "") {
+		alert("You have to add the name of the movie...");
+		return false;
+	}
+	return true;
+}
+
+function display_save_file_button (bool) {
+
+	if (bool) {
+		document.getElementById("save_pdf_file").style.display = "inline";
+		document.getElementById("save_pdf_file").setAttribute("class", "pure-button pure-button-primary");
+	}
+	else {
+		document.getElementById("save_pdf_file").setAttribute("class", "pure-button pure-button-disabled");
+		document.getElementById("save_pdf_file").style.display = "none";
+	}
+
+}
+
+/*
+Function which allows to build/make an http_object
+XMLHttpRequest -> Firefox/Chrome/Safari/InternetExplorer(7/8+)
+Msxml2 -> Bad Internet Explorer
+Microsoft -> Really bad Internet Explorer
+*/
+function make_http_object() {
+  try {return new XMLHttpRequest();}
+  catch (error) {}
+  try {return new ActiveXObject("Msxml2.XMLHTTP");}
+  catch (error) {}
+  try {return new ActiveXObject("Microsoft.XMLHTTP");}
+  catch (error) {}
+
+  throw new Error("Creation of the HTTP request object is not OK...");
+}
+
+/*
+Function which allows to validate form, search in the mdb database the movie, and give us the result 
+*/
+function search_movie () {
+
+	var movie = document.forms["form_search_movie"]["movie_searched"].value;
+
+	if (validate_form(movie)) {
+		send_search_mdb(movie);
+		//process_request_and_search_similar_movies();
+	}
+	else
+		display_save_file_button(false)
+
+}
+
+/*
+Function which allows to search in the Movie Database the movie giving in parameter
+*/
+function send_search_mdb (movie) {
+	var http_request = make_http_object();
+
+	http_request.open("GET", "https://api.themoviedb.org/3/search/movie?query="+movie+"&api_key="+api_key, true);
+
+	http_request.setRequestHeader('Accept', 'application/json');
+
+	http_request.onreadystatechange = function () {
+		//When it's ready, process the request and display the movie which was input.
+  		if (this.readyState === 4 && http_request.status == 200) {
+		    tabMovie = eval( '('+this.responseText+')' );
+		    if (process_request()) {
+		    	if (results_display == "List")
+					display_movie_list();
+				//After that, process with the similar movies
+				similarMoviesTab = new Array();
+				search_similar_movies(1);
+		    }
+		}
+	};
+
+	http_request.send(JSON.stringify(http_request.responseText));
+}
+
+/*
+Function which allows to process the request -> search the movie into the tab (default 0), extract name, date, etc...
+*/
+function process_request () {
+
+	if (tabMovie.results.length != 0) {
+		interval = clearInterval(interval);
+		first_movie.set_id(tabMovie.results[0].id);
+		first_movie.set_title(tabMovie.results[0].title);
+		first_movie.set_date(tabMovie.results[0].release_date);
+		first_movie.set_path_poster(tabMovie.results[0].poster_path);
+		first_movie.set_popularity(tabMovie.results[0].popularity);
+		first_movie.set_vote_average(tabMovie.results[0].vote_average);
+		first_movie.set_vote_count(tabMovie.results[0].vote_count);
+
+		/*Get crew + overview*/
+		var crewMovie = get_overview(first_movie.id);
+		first_movie.set_overview(crewMovie.overview);
+		first_movie.set_director(get_director(crewMovie));
+		first_movie.set_collection(crewMovie.belongs_to_collection);
+
+		/*Function OK*/
+		return true;
+	}
+	else {
+		display_no_movie();
+		display_save_file_button(false);
+		return false;
 	}
 
 }
@@ -383,7 +363,7 @@ function search_similar_movies (page_number) {
 
 		var http_request = make_http_object();
 
-		http_request.open("GET", "https://api.themoviedb.org/3/movie/"+first_movie.get_id()+"/similar?page="+page_number+"&api_key="+api_key);
+		http_request.open("GET", "https://api.themoviedb.org/3/movie/"+first_movie.get_id()+"/similar?page="+page_number+"&api_key="+api_key, true);
 
 		http_request.setRequestHeader('Accept', 'application/json');
 
@@ -434,7 +414,7 @@ function process_all_similar_movies () {
 				similarMovie.vote_average = similarMoviesTab[i].results[j].vote_average;
 				similarMovie.vote_count = similarMoviesTab[i].results[j].vote_count;
 
-				this.similarMovies.push(similarMovie);
+				similarMovies.push(similarMovie);
 
 			}
 
@@ -471,8 +451,6 @@ function perform_algorithm_similarities () {
 
 	number_similar_movies_obtains = 0;
 
-	var bestSimilarMovies = new Array();
-
 	if (first_movie.get_collection() != null) {
 		var collection = get_collection(first_movie.get_collection());
 		
@@ -482,55 +460,50 @@ function perform_algorithm_similarities () {
 
 				var similarMovie = new similar_movie();
 
-				similarMovie.id = collection.parts[i].id;
-				similarMovie.title = collection.parts[i].title;
-				similarMovie.date = collection.parts[i].release_date;
-				similarMovie.path_poster = collection.parts[i].poster_path;
-				similarMovie.popularity = collection.parts[i].popularity;
-				similarMovie.vote_average = collection.parts[i].vote_average;
-				similarMovie.vote_count = collection.parts[i].vote_count;
+				similarMovie.set_id(collection.parts[i].id);
+				similarMovie.set_title(collection.parts[i].title);
+				similarMovie.set_date(collection.parts[i].release_date);
+				similarMovie.set_path_poster(collection.parts[i].poster_path);
+				similarMovie.set_popularity(collection.parts[i].popularity);
+				similarMovie.set_vote_average(collection.parts[i].vote_average);
+				similarMovie.set_vote_count(collection.parts[i].vote_count);
 
-				similarMovie.score += 6;
+				similarMovie.set_score(6);
 
-				bestSimilarMovies.push(similarMovie);
-
-				number_similar_movies_obtains++;
+				similarMovies.unshift(similarMovie);
 
 			}
 
 		}
 	}
 
-	if (results_display == "List")
-		bestSimilarMovies.sort(function(a,b) {if (a.date < b.date) return -1; if (a.date > b.date) return 1; return 0});
-
 	for (var i = 0; i < similarMovies.length; i++) {
 
-		if (parseInt(similarMovies[i].vote_average) >= 7) {
-			bestSimilarMovies.push(similarMovies[i]);
+		if (parseInt(similarMovies[i].vote_average) < 7) {
 			similarMovies.splice(i, 1);
-			number_similar_movies_obtains++;
 		}
 
 	}
 
 	//Delete all duplications here
-	similarMovies = cleanDuplicates(bestSimilarMovies);
+	similarMovies = cleanDuplicates(similarMovies);
+
+	number_similar_movies_obtains = similarMovies.length;
 
 	if (results_display == "Graph") {
-		for (var i = 0; i < bestSimilarMovies.length; i++) {
+		for (var i = 0; i < similarMovies.length; i++) {
 
-			var objOverview = get_overview(bestSimilarMovies[i].id);
+			var objOverview = get_overview(similarMovies[i].id);
 
-			bestSimilarMovies[i].overview = objOverview.overview;
+			similarMovies[i].overview = objOverview.overview;
 
-			bestSimilarMovies[i].director = get_director(objOverview);
+			similarMovies[i].director = get_director(objOverview);
 
-			bestSimilarMovies[i].score += get_score(objOverview);
+			similarMovies[i].score += get_score(objOverview);
 
 		}
 
-		bestSimilarMovies.sort(function(a,b) {if (a.score < b.score) return 1; if (a.score > b.score) return -1; return 0});
+		similarMovies.sort(function(a,b) {if (a.score < b.score) return 1; if (a.score > b.score) return -1; return 0});
 	}
 
 	display_msg("Finishing...");
