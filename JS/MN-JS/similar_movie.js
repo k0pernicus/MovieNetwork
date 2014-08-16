@@ -83,6 +83,9 @@ function similar_movie () {
 	this.set_score = function(score) {
 		this.score = score;
 	}
+	this.add_score = function(score) {
+		this.score += score;
+	}
 
 }
 
