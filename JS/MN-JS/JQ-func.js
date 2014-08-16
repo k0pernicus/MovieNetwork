@@ -1,3 +1,0 @@
-/*
-All Jquery functions
-*/
