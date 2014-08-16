@@ -14,7 +14,9 @@ this.path_poster = null;
 this.popularity = null;
 this.vote_average = null;
 this.vote_count = null;
+this.collection = null;
 this.overview = null;
+this.director = null;
 
 /*
 Array of similar movies
@@ -33,6 +35,8 @@ function similarMovie_object() {
 	this.vote_average = null;
 	this.vote_count = null;
 	this.overview = null;
+	this.director = null;
+	this.score = 0;
 }
 
 /*
@@ -134,6 +138,7 @@ function reset_all_variables () {
 	this.vote_average = null;
 	this.vote_count = null;
 	this.overview = null;
+	this.score = 0;
 
 	height = 500;
 	width = 500;
@@ -254,8 +259,13 @@ function process_request () {
 		this.vote_average = tabMovie.results[0].vote_average;
 		this.vote_count = tabMovie.results[0].vote_count;
 
-		this.overview = get_overview(this.id);
+		/*Get crew + overview*/
+		var crewMovie = get_overview(this.id);
+		this.overview = crewMovie.overview;
+		this.director = get_director(crewMovie);
+		this.collection = crewMovie.belongs_to_collection;
 
+		/*Function OK*/
 		return true;
 	}
 	else {
@@ -278,7 +288,64 @@ function get_overview (id) {
 
 	if (http_request.readyState == 4 && http_request.status == 200) {
 		var obj = eval( '('+http_request.responseText+')');
-		return obj.overview;
+		return obj;
+	}
+
+}
+
+function get_director (object) {
+
+	var tabDirector = new Array();
+
+	var crew = object.credits.crew;
+
+	for (var i=0; i < crew.length; i++) {
+
+		if (crew[i].job == "Director")
+			tabDirector.push(crew[i].name);
+
+	}
+
+	return tabDirector;
+
+}
+
+function get_score (obj) {
+
+	var director = get_director(obj);
+
+	console.log("Director -> "+director);
+
+	//var screenwriter = get_screenwriter(obj);
+
+	var score = 0;
+
+	if (this.director[0] == director) {
+		console.log("--> OK BUDDY");
+		score += 3;
+	}
+	/*
+	if (this.screenwriter == screenwriter)
+		score += 1;
+	*/
+	return score;
+
+
+}
+
+function get_collection () {
+
+	var self = this;
+
+	var http_request = make_http_object();
+
+	http_request.open('GET', 'https://api.themoviedb.org/3/collection/'+this.collection.id+"?api_key="+api_key, false);
+
+	http_request.send(null);
+
+	if (http_request.readyState == 4 && http_request.status == 200) {
+		var obj = eval( '('+http_request.responseText+')');
+		return obj;
 	}
 
 }
@@ -464,11 +531,18 @@ function perform_algorithm_similarities () {
 	*/
 	var first_part_title = this.title.split(' ')[0];
 
-	for (var i = 0; i < this.tabMovie.results.length; i++) {
+	if (this.collection != null) {
+		var collection = get_collection(this.collection);
+		
+		for (var i = 0; i < collection.parts.length; i++) {
+
+			if (collection.parts[i].title != this.title) {
+
+				var similarMovie = new similarMovie_object();
 
 		if (((this.tabMovie.results[i].title.indexOf(first_part_title) == 0) || (this.title.indexOf(this.tabMovie.results[i].title) == 0)) && ((this.title != this.tabMovie.results[i].title) || (this.date != this.tabMovie.results[i].release_date))) {
 
-			var similarMovie = new similarMovie_object();
+				similarMovie.score += 6;
 
 			similarMovie.id = this.tabMovie.results[i].id;
 			similarMovie.title = this.tabMovie.results[i].title;
@@ -503,8 +577,21 @@ function perform_algorithm_similarities () {
 			similarMovie.vote_average = this.tabMovie.results[i].vote_average;
 			similarMovie.vote_count = this.tabMovie.results[i].vote_count;
 
-			bestSimilarMovies.push(similarMovie);
+			bestSimilarMovies[i].director = get_director(objOverview);
 
+			bestSimilarMovies[i].score += get_score(objOverview);
+
+		}
+	}
+
+	if (results_display == "List")
+		bestSimilarMovies.sort(function(a,b) {if (a.date < b.date) return -1; if (a.date > b.date) return 1; return 0});
+
+	for (var i = 0; i < similarMovies.length; i++) {
+
+		if (parseInt(similarMovies[i].vote_average) >= 7) {
+			bestSimilarMovies.push(similarMovies[i]);
+			similarMovies.splice(i, 1);
 			number_similar_movies_obtains++;
 		}
 
@@ -529,7 +616,8 @@ function perform_algorithm_similarities () {
 
 	display_msg("End of performing...");
 
-	similarMovies = bestSimilarMovies;
+	similarMovies[i].overview = similarObject.overview;
+	similarMovies[i].director = get_director(similarObject);
 
 }
 
