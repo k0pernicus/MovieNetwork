@@ -1,3 +1,0 @@
-/*
-Similar movie class
-*/
