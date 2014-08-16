@@ -3,7 +3,7 @@ var similarMoviesTab = new Array();
 var interval;
 var number_similar_movies = 20;
 var results_display = null;
-var api_key = "";
+var api_key = "f5dbc30b9b6055d3e85d063550790802";
 var bool_entry = false;
 var number_similar_movies_obtains = 0;
 
@@ -75,7 +75,7 @@ $( "#movie_searched" ).autocomplete({
 	scrollHeight: 220, 
 	source: function(req, add){
 		$.ajax({
-		url:'https://api.themoviedb.org/3/search/movie?api_key=API_KEY&',
+		url:'https://api.themoviedb.org/3/search/movie?api_key=f5dbc30b9b6055d3e85d063550790802&',
 		type:"get",
 		dataType: 'json',
 		data: 'query='+req.term,
