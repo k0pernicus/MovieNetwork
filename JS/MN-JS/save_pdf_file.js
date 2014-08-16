@@ -4,6 +4,9 @@ Save_pdf_file class
 @date 16/08/14
 */
 
+/*
+Saving function
+*/
 function save_pdf_file (first_movie, number_similar_movies, number_similar_movies_obtains, similarMovies) {
 
 	var specialElementHandlers = 
