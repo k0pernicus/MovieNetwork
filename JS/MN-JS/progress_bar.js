@@ -2,14 +2,18 @@ function init_progress_bar () {
 
 	var display_results_node = document.getElementById('display_results');
 
-	var div = document.createElement("progress");
-	div.id = "progress_bar";
-	div.value = 0;
-	div.max = 1;
+	var div = document.createElement("div");
+	div.id = "div_progress_bar";
+	div.appendChild(document.createTextNode("Please wait..."));
+	div.appendChild(document.createElement('br'));
+
+	var progress_bar = document.createElement("progress");
+	progress_bar.id = "progress_bar";
+	progress_bar.value = 0;
+	progress_bar.max = 1;
+	div.appendChild(progress_bar);
 
 	display_results_node.appendChild(div);
-	display_results_node.appendChild(document.createElement('br'));
-	display_results_node.appendChild(document.createElement('br'));
 
 }
 
@@ -29,9 +33,6 @@ function upgrade_progress_bar () {
 function clean_progress_bar () {
 
 	//Removal progress bar
-	document.getElementById("progress_bar").remove();
-	//Removal 'br' tags
-	var display_results = document.getElementById('display_results');
-	display_results.removeChild(display_results.childNodes[0]);
+	document.getElementById("div_progress_bar").remove();
 
 }
