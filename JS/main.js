@@ -1,4 +1,3 @@
-var tabMovie = null;
 var interval;
 var number_similar_movies = 25;
 var results_display = null;
@@ -54,7 +53,6 @@ Reset Functions
 */
 function reset_all_variables () {
 
-	tabMovie = null;
 	bool_entry = false;
 	number_similar_movies_obtains = 0;
 	first_movie.reset();
@@ -317,8 +315,6 @@ function display_movie_list () {
 
 	var display_results_node = document.getElementById('display_results');
 
-	remove_all_child(display_results_node);
-
 	var bold = document.createElement('b');
 
 	var intro = document.createTextNode("Result:");
@@ -344,8 +340,6 @@ function display_movie_list () {
 	display_results_node.appendChild(document.createTextNode(""+date+""));
 	display_results_node.appendChild(document.createElement('br'));
 	display_results_node.appendChild(document.createElement('br'));
-
-	display_msg("Computing! Please wait...");
 
 }
 
@@ -398,8 +392,6 @@ function process_all_similar_movies () {
 
 		reset_all_similar_movies_variables();
 
-		display_msg("Processing! Please wait...");
-
 		for (var i = 0; i < similarMoviesTab.length; i++) {
 
 			for (var j = 0; j < similarMoviesTab[i].results.length; j++) {
@@ -427,8 +419,6 @@ function process_all_similar_movies () {
 		else
 			display_all_movies_graph();
 
-		display_save_file_button(true);
-
 	}
 
 }
@@ -446,8 +436,6 @@ function cleanDuplicates (array) {
 
 /*Algorithm patch*/
 function perform_algorithm_similarities () {
-
-	display_msg("Performing! Please wait...");
 
 	number_similar_movies_obtains = 0;
 
@@ -505,8 +493,6 @@ function perform_algorithm_similarities () {
 
 		similarMovies.sort(function(a,b) {if (a.score < b.score) return 1; if (a.score > b.score) return -1; return 0});
 	}
-
-	display_msg("Finishing...");
 
 }
 
@@ -577,8 +563,6 @@ function display_all_movies_list() {
 	}
 
 	center.appendChild(table);
-
-	document.getElementById("msg_waiting").remove();
 
 	display_results_node.appendChild(center);
 
