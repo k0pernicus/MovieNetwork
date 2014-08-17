@@ -7,9 +7,6 @@ body {
 	color: #8a8683;
 	background-color:#ffffff;
 }
-img {
-	max-width: 100%;
-}
 a:link {
 	color: #f68f67;
 	text-decoration: none;
@@ -22,9 +19,74 @@ a:visited {
 	color: #f68f67;
 	text-decoration: none;
 }
+h3 {
+	color: #8a8683;
+}
+img {
+	max-width: 100%;
+}
+input {
+	text-align: center;
+}
+input#movie_searched {
+	width: 600px;
+	height: 55px;
+	/*background-color: #f68f67;*/
+	background-color: #8a8683;
+	color: #ffffff;
+	border-color: transparent;
+}
+input placeholder {
+	color: white;
+}
+li {
+	list-style-type: none;
+}
+progress[value] {
+	-webkit-appearance: none;
+	appearance: none;
+	height: 20px;
+	width: 600px;
+}
+progress[value]::-webkit-progress-bar {
+  background-color: #eee;
+  border: none;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+/* IE10 */
+progress {
+    color: #f68f67;
+}
 
+/* Firefox */
+progress::-moz-progress-bar { 
+    background: #f68f67;	
+}
 
+/* Chrome */
+progress::-webkit-progress-value {
+    background: #f68f67;
+}
 
+/* Polyfill */
+progress[aria-valuenow]:before  {
+    background: #f68f67;
+}
+
+/*Input placeholder*/
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: #ffffff;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #ffffff;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #ffffff;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #ffffff;
+}
 
 
 /* Navigation */
@@ -37,6 +99,12 @@ a:visited {
 	background-color:#ffffff;
 	z-index:100;
 }
+#display_results {
+	text-align: center;
+}
+#list_choice_movie:hover {
+	background-color: #f68f67;
+}
 #logo {
 	text-align: center;
 	margin: 10px 0;
@@ -48,6 +116,23 @@ a:visited {
 #nav_center {
 	text-align: center;
 	margin-top:30px;
+}
+#submit_search, #reset_search {
+	margin-left: 40px;
+}
+.box-effect
+{
+  	-webkit-box-shadow: 0 10px 6px -6px #777;
+	   -moz-box-shadow: 0 10px 6px -6px #777;
+	        box-shadow: 0 10px 6px -6px #777;
+
+	/*background-color: #E9F2F3;*/
+	background-color: #F0F7F9;
+
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 20px;
+	padding-bottom: 40px;
 }
 .navigation{
 	/*float: right;*/
@@ -69,9 +154,6 @@ a:visited {
 	color: #f68f67;
 	font-weight:bold;
 }
-
-
-
 
 /* General Slides */ 
 
