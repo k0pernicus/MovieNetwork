@@ -208,6 +208,7 @@ function search_movie () {
 	var movie = document.forms["form_search_movie"]["movie_searched"].value;
 
 	if (validate_form(movie)) {
+		init_progress_bar();
 		send_search_mdb(movie);
 		//process_request_and_search_similar_movies();
 	}
@@ -220,6 +221,9 @@ function search_movie () {
 Function which allows to search in the Movie Database the movie giving in parameter
 */
 function send_search_mdb (movie) {
+
+	evolve_progress_bar(0.05);
+
 	var http_request = make_http_object();
 
 	http_request.open("GET", "https://api.themoviedb.org/3/search/movie?query="+movie+"&api_key="+api_key, true);
@@ -229,11 +233,12 @@ function send_search_mdb (movie) {
 	http_request.onreadystatechange = function () {
 		//When it's ready, process the request and display the movie which was input.
   		if (this.readyState === 4 && http_request.status == 200) {
-		    tabMovie = eval( '('+this.responseText+')' );
-		    if (process_request()) {
-		    	if (results_display == "List")
-					display_movie_list();
+		    evolve_progress_bar(0.10);
+		    if (process_request(eval( '('+this.responseText+')' ))) {
+		    	/*if (results_display == "List")
+					display_movie_list();*/
 				//After that, process with the similar movies
+				evolve_progress_bar(0.15);
 				similarMoviesTab = new Array();
 				search_similar_movies(1);
 		    }
@@ -246,7 +251,7 @@ function send_search_mdb (movie) {
 /*
 Function which allows to process the request -> search the movie into the tab (default 0), extract name, date, etc...
 */
-function process_request () {
+function process_request (tabMovie) {
 
 	if (tabMovie.results.length != 0) {
 		interval = clearInterval(interval);
@@ -351,6 +356,8 @@ function search_similar_movies (page_number) {
 
 	if (first_movie.get_id() != null) {
 
+		evolve_progress_bar(0.20);
+
 		interval = clearInterval(interval);
 
 		var tmp_similarMoviesTab = null;
@@ -363,15 +370,18 @@ function search_similar_movies (page_number) {
 
 		http_request.onreadystatechange = function () {
 	  		if (this.readyState === 4) {
+			    evolve_progress_bar(0.25);
 			    tmp_similarMoviesTab = eval( '('+this.responseText+')');
 			    similarMoviesTab.push(tmp_similarMoviesTab);
 			    if (page_number > 20) {
+			    	evolve_progress_bar(0.45);
 			    	process_all_similar_movies();
 			    	return;
 			    }
 			    else {
 			    	page_number++;
 			    	search_similar_movies(page_number);
+			    	upgrade_progress_bar();
 			    }
 			}
 		};
@@ -387,6 +397,8 @@ function search_similar_movies (page_number) {
 function process_all_similar_movies () {
 
 	if (similarMoviesTab != null && bool_entry == false) {
+
+		evolve_progress_bar(0.50);
 
 		bool_entry = true;
 
@@ -412,10 +424,17 @@ function process_all_similar_movies () {
 
 		}
 
+		evolve_progress_bar(0.55);
+
 		perform_algorithm_similarities();
+
+		evolve_progress_bar(0.75);
 		
-		if (results_display == "List")
+		if (results_display == "List") {
+			display_movie_list();
+			evolve_progress_bar(0.85);
 			display_all_movies_list();
+		}
 		else
 			display_all_movies_graph();
 
@@ -565,5 +584,9 @@ function display_all_movies_list() {
 	center.appendChild(table);
 
 	display_results_node.appendChild(center);
+
+	display_save_file_button;
+
+	clean_progress_bar();
 
 }
