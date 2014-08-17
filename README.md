@@ -1,5 +1,5 @@
-MovieNetwork
-============
+MovieNetwork 2.0
+=================
 
 What is that thing?
 -------------------
@@ -24,12 +24,15 @@ JS: JQuery, Lightbox, CoolKitten, jsPDF.
 
 _Next: D3JS._
 
+Developer documentation
+-----------------------
+
+The developer documentation is in progress, with [jsdoc](http://usejsdoc.org/).
+
 TODO
 ----
 
-*	Save all results in JSON file
 *	Graph display with **D3JS**
-*	Open movie API like omdb?
 *	Better output PDF
 *	Drink some coke : **AGAIN, AGAIN, AGAIN, ...**
 
@@ -41,10 +44,14 @@ DONE
 *	Database of movies : usage of themoviedb ([http://www.themoviedb.org](http://www.themoviedb.org)) -> **NEED AN API_KEY**
 *	Full forms : **DONE -> WITH PREDICTIVE SEARCH**
 *	Algorithm of similarities : usage of themoviedb + enhancement overlay -> **DONE**
-*	Display results : **LIST: DONE -- GRAPH: NEXT VERSION**
+*	Display results : **LIST: DONE -- GRAPH: CURRENTLY**
 *	Output PDF : **DONE**
 *	Ajax script to display some available movie names to the user, when typing : **DONE**
-*	Put online : **DONE --> http://www.movie-network.net**
+*	Progress bar: **DONE**
+*	Perform the patch: **DONE**
+*	Addition of score for each similar movie: **DONE**
+*	Developer documentation: **CURRENTLY**
+*	"I see objects... EVERYWHERE!": **CURRENTLY**
 *	Drink some coke : **FOREVER <3**
 
 License
