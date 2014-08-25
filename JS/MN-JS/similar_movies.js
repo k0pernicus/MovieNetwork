@@ -15,10 +15,10 @@ similar_movies.prototype.reset = function() {
 }
 
 /**
- * Function to add a similar movie in the array attribute
+ * Function to add a similar movie in the array attribute (last position)
  * @param movie_object similar_movie A movie_object object, which represents a similar movie for the one entered
  */
-similar_movies.prototype.add_similar_movie = function(similar_movie) {
+similar_movies.prototype.add_similar_movie_after = function(similar_movie) {
 	this.array.push(similar_movie);
 }
 
