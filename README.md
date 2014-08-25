@@ -35,7 +35,8 @@ TODO
 *	Graph display with **D3JS**
 *	Better output PDF
 *	To write the developer documentation
-*	"I see objects... EVERYWHERE!"*	Drink some coke : **AGAIN, AGAIN, AGAIN, ...**
+*	"I see objects... EVERYWHERE!"
+*	Drink some coke : **AGAIN, AGAIN, AGAIN, ...**
 
 DONE
 ----
