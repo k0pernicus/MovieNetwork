@@ -446,17 +446,6 @@ function process_all_similar_movies () {
 
 }
 
-function cleanDuplicates (array) {
-
-	var cache = {};
-	array = array.filter(function(elem,index,array){
-		return cache[elem.id]?0:cache[elem.id]=1;
-	});
-
-	return array;
-
-}
-
 /*Algorithm patch*/
 function perform_algorithm_similarities () {
 
