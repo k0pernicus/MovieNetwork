@@ -11,7 +11,7 @@ var progress_bar = null;
 
 /**
  * Action 'submit_search' button
- * @return {false}
+ * @return False -> No send data to new page
  */
 $('#submit_search').click(function()
 {
