@@ -21,3 +21,11 @@ similar_movies.prototype.reset = function() {
 similar_movies.prototype.add_similar_movie = function(similar_movie) {
 	this.array.push(similar_movie);
 }
+
+/**
+ * Function which returns the array of similar movies
+ * @return Array Attribute which contains all the similar movies (movie_object object)
+ */
+similar_movies.prototype.get_array = function() {
+	return this.array;
+}
