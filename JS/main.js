@@ -4,14 +4,15 @@ var results_display = null;
 var api_key = "f5dbc30b9b6055d3e85d063550790802";
 var bool_entry = false;
 var number_similar_movies_obtains = 0;
-
-var first_movie = new first_movie();
+var first_movie = new movie_object();
 var similarMoviesTab = new Array();
 var similarMovies = new Array();
+var progress_bar = null;
 
-/*
-Action when submit button is down
-*/
+/**
+ * Action 'submit_search' button
+ * @return {false}
+ */
 $('#submit_search').click(function()
 {
 	//Clean results div
@@ -35,17 +36,19 @@ $('#reset_search').click(function()
 {
 	//Clean results div
 	remove_all_display_results();
-	//Hide the "save_pdf_file" button
+	//Hide the "pdf_file" button
 	display_save_file_button(false);
 });
 
 /*
-Action when the "save_pdf_file" button is down
+Action when the "pdf_file" button is down
 */
 $('#save_pdf_file').click(function()
 {
-	//Function to call when we want to save a pdf file
-	save_pdf_file(first_movie, number_similar_movies, number_similar_movies_obtains, similarMovies);
+	//Construction of a pdf_file object
+	var pdf_file = new pdf_file(first_movie, number_similar_movies, number_similar_movies_obtains, similarMovies);
+	//Write & save the pdf file
+	pdf_file.write_pdf();
 })
 
 /*
@@ -173,12 +176,12 @@ function validate_form (movie) {
 function display_save_file_button (bool) {
 
 	if (bool) {
-		document.getElementById("save_pdf_file").style.display = "inline";
-		document.getElementById("save_pdf_file").setAttribute("class", "pure-button pure-button-primary");
+		document.getElementById("pdf_file").style.display = "inline";
+		document.getElementById("pdf_file").setAttribute("class", "pure-button pure-button-primary");
 	}
 	else {
-		document.getElementById("save_pdf_file").setAttribute("class", "pure-button pure-button-disabled");
-		document.getElementById("save_pdf_file").style.display = "none";
+		document.getElementById("pdf_file").setAttribute("class", "pure-button pure-button-disabled");
+		document.getElementById("pdf_file").style.display = "none";
 	}
 
 }
@@ -208,7 +211,8 @@ function search_movie () {
 	var movie = document.forms["form_search_movie"]["movie_searched"].value;
 
 	if (validate_form(movie)) {
-		init_progress_bar();
+		progress_bar = new progress_bar();
+		progress_bar.init_progress_bar();
 		send_search_mdb(movie);
 		//process_request_and_search_similar_movies();
 	}
@@ -222,7 +226,7 @@ Function which allows to search in the Movie Database the movie giving in parame
 */
 function send_search_mdb (movie) {
 
-	evolve_progress_bar(0.05);
+	progress_bar.evolve_progress_bar(0.05);
 
 	var http_request = make_http_object();
 
@@ -233,12 +237,12 @@ function send_search_mdb (movie) {
 	http_request.onreadystatechange = function () {
 		//When it's ready, process the request and display the movie which was input.
   		if (this.readyState === 4 && http_request.status == 200) {
-		    evolve_progress_bar(0.10);
+		    progress_bar.evolve_progress_bar(0.10);
 		    if (process_request(eval( '('+this.responseText+')' ))) {
 		    	/*if (results_display == "List")
 					display_movie_list();*/
 				//After that, process with the similar movies
-				evolve_progress_bar(0.15);
+				progress_bar.evolve_progress_bar(0.15);
 				similarMoviesTab = new Array();
 				search_similar_movies(1);
 		    }
@@ -356,7 +360,7 @@ function search_similar_movies (page_number) {
 
 	if (first_movie.get_id() != null) {
 
-		evolve_progress_bar(0.20);
+		progress_bar.evolve_progress_bar(0.20);
 
 		interval = clearInterval(interval);
 
@@ -370,18 +374,18 @@ function search_similar_movies (page_number) {
 
 		http_request.onreadystatechange = function () {
 	  		if (this.readyState === 4) {
-			    evolve_progress_bar(0.25);
+			    progress_bar.evolve_progress_bar(0.25);
 			    tmp_similarMoviesTab = eval( '('+this.responseText+')');
 			    similarMoviesTab.push(tmp_similarMoviesTab);
 			    if (page_number > 20) {
-			    	evolve_progress_bar(0.45);
+			    	progress_bar.evolve_progress_bar(0.45);
 			    	process_all_similar_movies();
 			    	return;
 			    }
 			    else {
 			    	page_number++;
 			    	search_similar_movies(page_number);
-			    	upgrade_progress_bar();
+			    	progress_bar.upgrade_progress_bar();
 			    }
 			}
 		};
@@ -398,7 +402,7 @@ function process_all_similar_movies () {
 
 	if (similarMoviesTab != null && bool_entry == false) {
 
-		evolve_progress_bar(0.50);
+		progress_bar.evolve_progress_bar(0.50);
 
 		bool_entry = true;
 
@@ -408,7 +412,7 @@ function process_all_similar_movies () {
 
 			for (var j = 0; j < similarMoviesTab[i].results.length; j++) {
 
-				var similarMovie = new similar_movie();
+				var similarMovie = new movie_object();
 
 				similarMovie.id = similarMoviesTab[i].results[j].id;
 				similarMovie.title = similarMoviesTab[i].results[j].title;
@@ -424,15 +428,15 @@ function process_all_similar_movies () {
 
 		}
 
-		evolve_progress_bar(0.55);
+		progress_bar.evolve_progress_bar(0.55);
 
 		perform_algorithm_similarities();
 
-		evolve_progress_bar(0.75);
+		progress_bar.evolve_progress_bar(0.75);
 		
 		if (results_display == "List") {
 			display_movie_list();
-			evolve_progress_bar(0.85);
+			progress_bar.evolve_progress_bar(0.85);
 			display_all_movies_list();
 		}
 		else
@@ -465,7 +469,7 @@ function perform_algorithm_similarities () {
 
 			if (collection.parts[i].title != first_movie.get_title()) {
 
-				var similarMovie = new similar_movie();
+				var similarMovie = new movie_object();
 
 				similarMovie.set_id(collection.parts[i].id);
 				similarMovie.set_title(collection.parts[i].title);
@@ -587,6 +591,6 @@ function display_all_movies_list() {
 
 	display_save_file_button;
 
-	clean_progress_bar();
+	progress_bar.clean_progress_bar();
 
 }
