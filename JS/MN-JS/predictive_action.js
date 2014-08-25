@@ -1,6 +1,8 @@
-/*
-Predictive action (for movie title search only)
-*/
+/**
+ * Predictive action
+ * Add a predictive feature to find the good movie in the TMDb database
+ * @returns Object Object which contains a list of movies which are similars from what we had typing
+ */
 $(function(){
 var suggestions = [];
 $( "#movie_searched" ).autocomplete({
