@@ -6,7 +6,7 @@ var bool_entry = false;
 var number_similar_movies_obtains = 0;
 var first_movie = new movie_object();
 var similarMoviesTab = new Array();
-var similarMovies = new Array();
+var similarMovies = new similar_movies();
 var progress_bar = null;
 
 /**
@@ -65,7 +65,7 @@ function reset_all_variables () {
 
 function reset_all_similar_movies_variables () {
 
-	similarMovies = new Array();
+	similarMovies.reset();
 
 }
 
@@ -422,7 +422,7 @@ function process_all_similar_movies () {
 				similarMovie.vote_average = similarMoviesTab[i].results[j].vote_average;
 				similarMovie.vote_count = similarMoviesTab[i].results[j].vote_count;
 
-				similarMovies.push(similarMovie);
+				similarMovies.add_similar_movie_after(similarMovie);
 
 			}
 
@@ -481,36 +481,36 @@ function perform_algorithm_similarities () {
 
 				similarMovie.set_score(6);
 
-				similarMovies.unshift(similarMovie);
+				similarMovies.add_similar_movie_before(similarMovie);
 
 			}
 
 		}
 	}
 
-	for (var i = 0; i < similarMovies.length; i++) {
+	for (var i = 0; i < similarMovies.get_length(); i++) {
 
-		if (parseInt(similarMovies[i].vote_average) < 7) {
-			similarMovies.splice(i, 1);
+		if (parseInt(similarMovies.get_similar_movie_position(i).get_vote_average()) < 7) {
+			similarMovies.remove_similar_movie_position(i);
 		}
 
 	}
 
 	//Delete all duplications here
-	similarMovies = cleanDuplicates(similarMovies);
+	similarMovies.clean_duplicates();
 
-	number_similar_movies_obtains = similarMovies.length;
+	number_similar_movies_obtains = similarMovies.get_length();
 
 	if (results_display == "Graph") {
-		for (var i = 0; i < similarMovies.length; i++) {
+		for (var i = 0; i < similarMovies.get_length(); i++) {
 
-			var objOverview = get_overview(similarMovies[i].id);
+			var objOverview = get_overview(similarMovies.get_similar_movie_position(i).get_id());
 
-			similarMovies[i].overview = objOverview.overview;
+			similarMovies.get_similar_movie_position(i).set_overview(objOverview.overview);
 
-			similarMovies[i].director = get_director(objOverview);
+			similarMovies.get_similar_movie_position(i).set_director(get_director(objOverview));
 
-			similarMovies[i].score += get_score(objOverview);
+			similarMovies.get_similar_movie_position(i).set_score(similarMovies.get_similar_movie_position(i).get_score() += get_score(objOverview));
 
 		}
 
@@ -521,10 +521,10 @@ function perform_algorithm_similarities () {
 
 function addOverviewTo(i) {
 
-	var similarObject = get_overview(similarMovies[i].id);
+	var similarObject = get_overview(similarMovies.get_similar_movie_position(i).get_id());
 
-	similarMovies[i].overview = similarObject.overview;
-	similarMovies[i].director = get_director(similarObject);
+	similarMovies.get_similar_movie_position(i).set_overview(similarObject.overview);
+	similarMovies.get_similar_movie_position(i).set_director(get_director(similarObject));
 
 }
 
@@ -561,14 +561,14 @@ function display_all_movies_list() {
 	for (var i = 0; i < (number_similar_movies > number_similar_movies_obtains? number_similar_movies_obtains : number_similar_movies); i++) {
 		tr = document.createElement('tr');
 		td = document.createElement('td');
-		var title = similarMovies[i].title;
-		var path_poster = similarMovies[i].path_poster;
+		var title = similarMovies.get_similar_movie_position(i).get_title();
+		var path_poster = similarMovies.get_similar_movie_position(i).get_path_poster();
 		if (path_poster != "" && path_poster != null && typeof(path_poster) != "undefined") {
 			var poster = document.createElement('a');
-			poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+similarMovies[i].path_poster);
+			poster.setAttribute('href', 'http://image.tmdb.org/t/p/w300/'+path_poster);
 			poster.setAttribute('onclick', addOverviewTo(i));
 			poster.setAttribute('data-lightbox', 'poster_similar_movie');
-			poster.setAttribute('data-title', similarMovies[i].overview);
+			poster.setAttribute('data-title', similarMovies.get_similar_movie_position(i).get_overview());
 			poster.appendChild(document.createTextNode(title));
 			td.appendChild(poster);
 		}
@@ -577,8 +577,8 @@ function display_all_movies_list() {
 		}
 		tr.appendChild(td);
 		td = document.createElement('td');
-		if (typeof(similarMovies[i].date) != "undefined" && similarMovies[i].date != null) {
-			var date = similarMovies[i].date.split("-");
+		if (typeof(similarMovies.get_similar_movie_position(i).get_date()) != "undefined" && similarMovies.get_similar_movie_position(i).get_date() != null) {
+			var date = similarMovies.get_similar_movie_position(i).get_date().split("-");
 			td.appendChild(document.createTextNode(date[0]));
 		}
 		tr.appendChild(td);
