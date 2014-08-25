@@ -17,7 +17,10 @@ progress_bar.prototype.init_progress_bar = function() {
 
 	var div = document.createElement("div");
 	div.id = "div_progress_bar";
-	div.appendChild(document.createTextNode("Computing - please wait..."));
+	var span = document.createElement("span");
+	span.id = "span_progress_bar";
+	span.appendChild(document.createTextNode("Computing - please wait..."));
+	div.appendChild(span);
 	div.appendChild(document.createElement('br'));
 
 	var progress_bar = document.createElement("progress");
@@ -28,6 +31,8 @@ progress_bar.prototype.init_progress_bar = function() {
 
 	display_results_node.appendChild(div);
 
+	this.div_progress_bar = document.getElementById("div_progress_bar");
+	this.span_progress_bar = document.getElementById("span_progress_bar");
 	this.progress_bar = document.getElementById("progress_bar");
 
 }
@@ -38,6 +43,22 @@ progress_bar.prototype.init_progress_bar = function() {
  */
 progress_bar.prototype.evolve_progress_bar = function(value) {
 	this.progress_bar.value = value;
+}
+
+/**
+ * Function to evolve the message displayed, with the progress bar
+ * @param  String msg The new message to display
+ */
+progress_bar.prototype.evolve_progress_bar_msg = function(msg) {
+	//Create a new message
+	var msg = document.createTextNode(msg);
+
+	//Delete all the first child contains in the span tag
+	while (this.span_progress_bar.firstChild)
+    	this.span_progress_bar.removeChild(this.span_progress_bar.firstChild);
+
+    //Add the new message as first child, in the span tag
+	this.span_progress_bar.appendChild(msg);
 }
 
 /**
@@ -59,5 +80,5 @@ progress_bar.prototype.upgrade_progress_bar = function() {
  * Function to clean/remove the object.
  */
 progress_bar.prototype.clean_progress_bar = function() {
-	this.progress_bar.remove();
+	this.div_progress_bar.remove();
 }
