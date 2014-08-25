@@ -32,11 +32,11 @@ The developer documentation is in progress, with [jsdoc](http://usejsdoc.org/).
 TODO
 ----
 
-*	Graph display with **D3JS**
-*	Better output PDF
 *	To write the developer documentation
 *	"I see objects... EVERYWHERE!"
+*	Better output PDF
 *	Drink some coke : **AGAIN, AGAIN, AGAIN, ...**
+*	Graph display with **D3JS** : **FUTURE VERSION -> DIFFICULTIES**
 
 DONE
 ----
