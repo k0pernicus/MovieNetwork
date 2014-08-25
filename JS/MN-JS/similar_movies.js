@@ -63,6 +63,9 @@ similar_movies.prototype.get_array = function() {
 	return this.array;
 }
 
+/**
+ * Function which clean duplicates in all the array
+ */
 similar_movies.prototype.clean_duplicates = function() {
 	var cache = {};
 	this.array = this.array.filter(function(elem,index,array){
