@@ -275,10 +275,12 @@ function search_movie() {
 
 }
 
-/*
-Function which allows to search in the Movie Database the movie giving in parameter
-*/
-function send_search_mdb (movie) {
+/**
+ * Function which allows to send an HTTP request to have some informations about a movie, from TMDb<br/>
+ * When the request is done, the searching about similar movies can begins with 'search_similar_movies' (see developer documentation)
+ * @param {String} movie The title of the movie to search
+ */
+function send_search_mdb(movie) {
 
 	progress_bar.evolve_progress_bar(0.05);
 
@@ -306,10 +308,12 @@ function send_search_mdb (movie) {
 	http_request.send(JSON.stringify(http_request.responseText));
 }
 
-/*
-Function which allows to process the request -> search the movie into the tab (default 0), extract name, date, etc...
-*/
-function process_request (tabMovie) {
+/**
+ * Function to process the JSON object, which represents the informations about the movie searched
+ * @param  {JSON} tabMovie JSON object which represents the informations about the movie searched
+ * @return {Boolean} True if the JSON object contains informations, False else
+ */
+function process_request(tabMovie) {
 
 	if (tabMovie.results.length != 0) {
 		first_movie.set_id(tabMovie.results[0].id);
@@ -337,7 +341,11 @@ function process_request (tabMovie) {
 
 }
 
-function display_msg (msg) {
+/**
+ * Function to display a message, in the results div
+ * @param  {String} msg The message to display
+ */
+function display_msg(msg) {
 
 	if (document.getElementById('msg_waiting') != null)
 		document.getElementById('msg_waiting').remove();
@@ -353,7 +361,10 @@ function display_msg (msg) {
 
 }
 
-function display_no_movie () {
+/**
+ * Function to display a message, which is <b>there is no movie with the title inputed</b>
+ */
+function display_no_movie() {
 
 	var display_results_node = document.getElementById('display_results');
 	
@@ -371,7 +382,10 @@ function display_no_movie () {
 
 }
 
-function display_movie_list () {
+/**
+ * Function which allows to display the first_movie object, in the results div
+ */
+function display_movie_list() {
 
 	var display_results_node = document.getElementById('display_results');
 
@@ -403,11 +417,11 @@ function display_movie_list () {
 
 }
 
-/*
-Function which permits to search all of the similar movies of the input
-param page_number -> number of the page to search (default: 1)
-*/
-function search_similar_movies (page_number) {
+/**
+ *Function which permits to search all of the similar movies of the one inputed
+ *@param {Number} page_number Number of the page to search (default: 1), in TMDb
+ */
+function search_similar_movies(page_number) {
 
 	if (first_movie.get_id() != null) {
 
@@ -445,7 +459,10 @@ function search_similar_movies (page_number) {
 
 }
 
-function process_all_similar_movies () {
+/**
+ * Function which allows to display all the similar movies (after the first_movie displays), in the results div
+ */
+function process_all_similar_movies() {
 
 	if (similarMoviesTab != null) {
 
@@ -491,7 +508,16 @@ function process_all_similar_movies () {
 
 }
 
-/*Algorithm patch*/
+/**
+ * Algorthm patch<br/>
+ * This path permits to have better results for the similar movies<br>
+ * He compute, for all similar movies, the score of similarities with the first_movie object by:
+ * <ul>
+ * 	<li>Affiliations with the same collection</li>
+ * 	<li>The vote average (>7 to keep a movie by default)</li>
+ * 	<li>Clean all duplicates</li>
+ * </ul>
+ */
 function perform_algorithm_similarities () {
 
 	number_similar_movies_obtains = 0;
@@ -553,6 +579,10 @@ function perform_algorithm_similarities () {
 
 }
 
+/**
+ * Function to add the overview of the movie at position i
+ * @param {Number} i The position of the movie, to add overview
+ */
 function addOverviewTo(i) {
 
 	var similarObject = get_overview(similarMovies.get_similar_movie_position(i).get_id());
@@ -562,12 +592,19 @@ function addOverviewTo(i) {
 
 }
 
+/**
+ * Function to display all movies in a graph<br/>
+ * BUILDING
+ */
 function display_all_movies_graph () {
 
 	display_msg("Building! Still alpha...");
 
 }
 
+/**
+ * Function which allows to display all the similar movies, after the first movie results, in the results div
+ */
 function display_all_movies_list() {
 
 	var display_results_node = document.getElementById('display_results');
