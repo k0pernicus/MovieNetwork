@@ -1,4 +1,3 @@
-var interval;
 var number_similar_movies = 25;
 var results_display = null;
 var api_key = "f5dbc30b9b6055d3e85d063550790802";
@@ -257,7 +256,6 @@ Function which allows to process the request -> search the movie into the tab (d
 function process_request (tabMovie) {
 
 	if (tabMovie.results.length != 0) {
-		interval = clearInterval(interval);
 		first_movie.set_id(tabMovie.results[0].id);
 		first_movie.set_title(tabMovie.results[0].title);
 		first_movie.set_date(tabMovie.results[0].release_date);
@@ -300,8 +298,6 @@ function display_msg (msg) {
 }
 
 function display_no_movie () {
-
-	interval = clearInterval(interval);
 
 	var display_results_node = document.getElementById('display_results');
 	
@@ -360,8 +356,6 @@ function search_similar_movies (page_number) {
 	if (first_movie.get_id() != null) {
 
 		progress_bar.evolve_progress_bar(0.20);
-
-		interval = clearInterval(interval);
 
 		var tmp_similarMoviesTab = null;
 
