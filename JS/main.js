@@ -1,16 +1,27 @@
-var number_similar_movies = 25;
-var results_display = null;
 var api_key = "f5dbc30b9b6055d3e85d063550790802";
+
+var number_similar_movies = 25;
 var number_similar_movies_obtains = 0;
+var results_display = null;
+
+//Movie searched
 var first_movie = new movie_object();
+//Array of similar movies, from first_movie
+var similarMovies = new similar_movies();
+
 //similarMoviesTab will contains the untraited data from the HTTP request (for similar movies)
 var similarMoviesTab = new Array();
-var similarMovies = new similar_movies();
+//Variable which contains the progress HTML5 element
 var progress_bar = null;
 
 /**
- * Action 'submit_search' button
- * @return False -> No send data to new page
+ * Action 'submit_search' button click<br/>
+ * 1st: reset the results<br/>
+ * 2nd: get the number of movies wanted<br/>
+ * 3rd: get the display form<br/>
+ * 4th: reset variables & objects<br/>
+ * 5th: search the movie
+ * @return {Boolean} False -> No send data to new page
  */
 $('#submit_search').click(function()
 {
@@ -28,9 +39,11 @@ $('#submit_search').click(function()
     return false;
 });
 
-/*
-Action when reset button is down
-*/
+/**
+ * Action 'reset_search' button click<br/>
+ * 1st: reset the results<br/>
+ * 2nd: to hide the 'save_pdf_file' button
+ */
 $('#reset_search').click(function()
 {
 	//Clean results div
@@ -39,9 +52,11 @@ $('#reset_search').click(function()
 	display_save_file_button(false);
 });
 
-/*
-Action when the "pdf_file" button is down
-*/
+/**
+ * Action 'save_pdf_file' button click<br/>
+ * 1st: to build pdf_file object (see developer documentation)<br/>
+ * 2nd: write results & save the file<br/>
+ */
 $('#save_pdf_file').click(function()
 {
 	//Construction of a pdf_file object
@@ -50,10 +65,11 @@ $('#save_pdf_file').click(function()
 	pdf_file.write_pdf();
 })
 
-/*
-Reset Functions
-*/
-function reset_all_variables () {
+/**
+ * Function to reset variables & objects</br>
+ * Reset 'number_similar_movies_obtains', first_movie & similar_movies objects
+ */
+function reset_all_variables() {
 
 	number_similar_movies_obtains = 0;
 	first_movie.reset();
@@ -61,37 +77,48 @@ function reset_all_variables () {
 
 }
 
-function reset_all_similar_movies_variables () {
+/**
+ * Function to reset only similar_movies object
+ */
+function reset_all_similar_movies_variables() {
 
 	similarMovies.reset();
 
 }
 
-
-function remove_all_child (document) {
+/**
+ * Function to remove all child of a part of the HTML DOM
+ * @param  {DOM} document div, span, etc...
+ */
+function remove_all_child(document) {
 
 	while (document.firstChild)
     	document.removeChild(document.firstChild);	
 
 }
 
-function remove_all_display_results () {
+/**
+ * Function to remove all results allready display
+ */
+function remove_all_display_results() {
 
 	var display_results_node = document.getElementById('display_results');
 	remove_all_child(display_results_node);
 
 }
 
-/*
-GET Functions
-*/
-
-function get_overview (id) {
+/**
+ * Function to get the overview of a specific movie, by his id & an HTTP request (to TMDb)
+ * @param  {String} id The specific id of a movie
+ * @return {JSON} A JSON object, which contains the results of the HTTP request
+ */
+function get_overview(id) {
 
 	var self = this;
 
 	var http_request = make_http_object();
 
+	//False -> sync
 	http_request.open("GET", "https://api.themoviedb.org/3/movie/"+id+"?append_to_response=credits&api_key="+api_key, false);
 
 	http_request.send(null/*JSON.stringify(http_request.responseText)*/);
@@ -103,7 +130,12 @@ function get_overview (id) {
 
 }
 
-function get_director (object) {
+/**
+ * Function to get the director of a movie, from a JSON object
+ * @param  {JSON} object A JSON object, results of the 'get_overview' function (see developer documentation)
+ * @return {Array} An array which contains all the directors of the movie
+ */
+function get_director(object) {
 
 	var tabDirector = new Array();
 
@@ -120,7 +152,15 @@ function get_director (object) {
 
 }
 
-function get_score (obj) {
+/**
+ * Function to get the score of a similar movie<br/>
+ * The score is computed first by comparing directors<br/>
+ * Good idea is to compute also with screenwriters...<br/>
+ * NOTE: See perform_algorithm function to see the comparing of collections
+ * @param {JSON} obj JSON object, results of the 'get_overview' function
+ * @return {Number} The score of the similar movie
+ */
+function get_score(obj) {
 
 	var director = get_director(obj);
 
@@ -140,10 +180,13 @@ function get_score (obj) {
 	*/
 	return score;
 
-
 }
 
-function get_collection () {
+/**
+ * Function to get the collection of the first_movie object (<b>ONLY FIRST_MOVIE OBJECT</b>)
+ * @return {JSON} JSON object, which represents the collection of the first_movie object, if she exists
+ */
+function get_collection() {
 
 	var self = this;
 
@@ -160,10 +203,12 @@ function get_collection () {
 
 }
 
-/*
-Function which allows to validate a form
-*/
-function validate_form (movie) {
+/**
+ * Function to validate the form
+ * @param  {String} movie A String which represents the movie's name
+ * @return {Boolean} True if the form validate, False else
+ */
+function validate_form(movie) {
 	if (movie == null || movie == "") {
 		alert("You have to add the name of the movie...");
 		return false;
@@ -171,7 +216,11 @@ function validate_form (movie) {
 	return true;
 }
 
-function display_save_file_button (bool) {
+/**
+ * Function to display (or not) the 'save_pdf_file' button
+ * @param  {Boolean} bool Boolean which represents the decision to display or not the button
+ */
+function display_save_file_button(bool) {
 
 	if (bool) {
 		document.getElementById("pdf_file").style.display = "inline";
@@ -184,12 +233,13 @@ function display_save_file_button (bool) {
 
 }
 
-/*
-Function which allows to build/make an http_object
-XMLHttpRequest -> Firefox/Chrome/Safari/InternetExplorer(7/8+)
-Msxml2 -> Bad Internet Explorer
-Microsoft -> Really bad Internet Explorer
-*/
+/**
+ * Function which allows to build/make an http_object<br/>
+ * XMLHttpRequest -> Firefox/Chrome/Safari/InternetExplorer(7/8+)<br/>
+ * Msxml2 -> Bad Internet Explorer<br/>
+ * Microsoft -> Really bad Internet Explorer
+ * @throws {Error} If creation of the HTTP request is not possible
+ */
 function make_http_object() {
   try {return new XMLHttpRequest();}
   catch (error) {}
@@ -201,10 +251,17 @@ function make_http_object() {
   throw new Error("Creation of the HTTP request object is not OK...");
 }
 
-/*
-Function which allows to validate form, search in the mdb database the movie, and give us the result 
-*/
-function search_movie () {
+/**
+ * Function which allows to do a treatment on the first_movie object<br/>
+ * 1st: get the value of the movie (title)<br/>
+ * 2nd: check the form (see developer documentation)<br/>
+ * 3rd: 
+ * <ul>
+ * 			<li>IF OK = Init the progress bar + send HTTP request to search the movie in TMDb (see 'send_search_mdb' function in the developer documentation)</li>
+ * 			<li>IF NOT OK = hide the 'save_pdf_file' button (see 'display_save_file_button' function in the developer documentation)</li>
+ * </ul>
+ */
+function search_movie() {
 
 	var movie = document.forms["form_search_movie"]["movie_searched"].value;
 
@@ -212,7 +269,6 @@ function search_movie () {
 		progress_bar = new progress_bar();
 		progress_bar.init_progress_bar();
 		send_search_mdb(movie);
-		//process_request_and_search_similar_movies();
 	}
 	else
 		display_save_file_button(false)
