@@ -16,7 +16,7 @@ similar_movies.prototype.reset = function() {
 
 /**
  * Function to add a similar movie in the array attribute (last position)
- * @param movie_object similar_movie A movie_object object, which represents a similar movie for the one entered
+ * @param {movie_object} similar_movie A movie_object object, which represents a similar movie for the one entered
  */
 similar_movies.prototype.add_similar_movie_after = function(similar_movie) {
 	this.array.push(similar_movie);
@@ -24,7 +24,7 @@ similar_movies.prototype.add_similar_movie_after = function(similar_movie) {
 
 /**
  * Function to add a similar movie in the array attribute (first position)
- * @param movie_object similar_movie A movie_object object, which represents a similar movie for the one entered
+ * @param {movie_object} similar_movie A movie_object object, which represents a similar movie for the one entered
  */
 similar_movies.prototype.add_similar_movie_before = function(similar_movie) {
 	this.array.unshift(similar_movie);
@@ -32,7 +32,7 @@ similar_movies.prototype.add_similar_movie_before = function(similar_movie) {
 
 /**
  * Function to return the movie_object object at a given position
- * @param  Number i The position of the object to return, in the array attribute
+ * @param  {Number} i The position of the object to return, in the array attribute
  * @return movie_object A movie_object object
  */
 similar_movies.prototype.get_similar_movie_position = function(i) {
@@ -41,7 +41,7 @@ similar_movies.prototype.get_similar_movie_position = function(i) {
 
 /**
  * Function to delete the movie_object at a given position
- * @param  Number i The position of the object to delete, in the array attribute
+ * @param {Number} i The position of the object to delete, in the array attribute
  */
 similar_movies.prototype.remove_similar_movie_position = function(i) {
 	this.array.splice(i, 1);
@@ -49,7 +49,7 @@ similar_movies.prototype.remove_similar_movie_position = function(i) {
 
 /**
  * Function to return the length of the array of similar movies
- * @return Number The length of the attribute 'array'
+ * @return {Number} The length of the attribute 'array'
  */
 similar_movies.prototype.get_length = function() {
 	return this.array.length;
@@ -57,7 +57,7 @@ similar_movies.prototype.get_length = function() {
 
 /**
  * Function which returns the array of similar movies
- * @return Array Attribute which contains all the similar movies (movie_object object)
+ * @return {Array} Attribute which contains all the similar movies (movie_object object)
  */
 similar_movies.prototype.get_array = function() {
 	return this.array;

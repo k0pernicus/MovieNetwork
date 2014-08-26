@@ -1,10 +1,10 @@
 /**
  * Object to represents the pdf to save.
  * @constructor
- * @param Object first_movie The object first_movie, from main.js
- * @param Number number_similar_movies The number of similar movies the user wants on the pdf file
- * @param Number number_similar_movies_obtains The maximum number of similar movies founded
- * @param Array similarMovies Array of all the similar movies
+ * @param {movie_object} first_movie The object first_movie, from main.js
+ * @param {Number} number_similar_movies The number of similar movies the user wants on the pdf file
+ * @param {Number} number_similar_movies_obtains The maximum number of similar movies founded
+ * @param {Array} similarMovies Array of all the similar movies
  */
 function pdf_file(first_movie, number_similar_movies, number_similar_movies_obtains, similarMovies) {
 

@@ -124,7 +124,7 @@ movie_object.prototype.get_score = function() {
 
 /**
  * Function to set the id of the object.
- * @param Number id The id of the object
+ * @param {Number} id The id of the object
  */
 movie_object.prototype.set_id = function(id) {
 	this.id = id;
@@ -132,7 +132,7 @@ movie_object.prototype.set_id = function(id) {
 
 /**
  * Function to set the title of the object.
- * @param String title The title of the object
+ * @param {String} title The title of the object
  */
 movie_object.prototype.set_title = function(title) {
 	this.title = title;
@@ -140,7 +140,7 @@ movie_object.prototype.set_title = function(title) {
 
 /**
  * Function to set the date of the object.
- * @param String date The date of the object
+ * @param {String} date The date of the object
  */
 movie_object.prototype.set_date = function(date) {
 	this.date = date;
@@ -148,7 +148,7 @@ movie_object.prototype.set_date = function(date) {
 
 /**
  * Function to set the path poster of the object.
- * @param String path_poster The path poster of the object
+ * @param {String} path_poster The path poster of the object
  */
 movie_object.prototype.set_path_poster = function(path_poster) {
 	this.path_poster = path_poster;
@@ -156,7 +156,7 @@ movie_object.prototype.set_path_poster = function(path_poster) {
 
 /**
  * Function to set the popularity of the object.
- * @param Float popularity The popularity of the object
+ * @param {Float} popularity The popularity of the object
  */
 movie_object.prototype.set_popularity = function(popularity) {
 	this.popularity = popularity;
@@ -164,7 +164,7 @@ movie_object.prototype.set_popularity = function(popularity) {
 
 /**
  * Function to set the vote average of the object.
- * @param Float vote_average The vote average of the object
+ * @param {Float} vote_average The vote average of the object
  */
 movie_object.prototype.set_vote_average = function (vote_average) {
 	this.vote_average = vote_average;
@@ -172,7 +172,7 @@ movie_object.prototype.set_vote_average = function (vote_average) {
 
 /**
  * Function to set the vote count of the object.
- * @param Float vote_count The vote count of the object
+ * @param {Float} vote_count The vote count of the object
  */
 movie_object.prototype.set_vote_count = function(vote_count) {
 	this.vote_count = vote_count;
@@ -180,7 +180,7 @@ movie_object.prototype.set_vote_count = function(vote_count) {
 
 /**
  * Function to set the collection of the object.
- * @param Object collection The collection of the object
+ * @param {Object} collection The collection of the object
  */
 movie_object.prototype.set_collection = function(collection) {
 	this.collection = collection;
@@ -188,7 +188,7 @@ movie_object.prototype.set_collection = function(collection) {
 
 /**
  * Function to set the overview of the object.
- * @param String overview The overview of the object
+ * @param {String} overview The overview of the object
  */
 movie_object.prototype.set_overview = function(overview) {
 	this.overview = overview;
@@ -196,7 +196,7 @@ movie_object.prototype.set_overview = function(overview) {
 
 /**
  * Function to set the director of the object.
- * @param String director The director of the object
+ * @param {String} director The director of the object
  */
 movie_object.prototype.set_director = function(director) {
 	this.director = director;
@@ -204,7 +204,7 @@ movie_object.prototype.set_director = function(director) {
 
 /**
  * Function to set the score of the object (for a similar movie).
- * @param Number score The score of the object
+ * @param {Number} score The score of the object
  */
 movie_object.prototype.set_score = function(score) {
 	this.score = score;

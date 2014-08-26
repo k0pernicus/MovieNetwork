@@ -39,7 +39,7 @@ progress_bar.prototype.init_progress_bar = function() {
 
 /**
  * Function to evolve the value of the object.
- * @param int value New value of the progress_bar object
+ * @param {Number} value New value of the progress_bar object
  */
 progress_bar.prototype.evolve_progress_bar = function(value) {
 	this.progress_bar.value = value;
@@ -47,7 +47,7 @@ progress_bar.prototype.evolve_progress_bar = function(value) {
 
 /**
  * Function to evolve the message displayed, with the progress bar
- * @param  String msg The new message to display
+ * @param {String} msg The new message to display
  */
 progress_bar.prototype.evolve_progress_bar_msg = function(msg) {
 	//Create a new message
