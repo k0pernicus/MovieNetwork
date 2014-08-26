@@ -1,7 +1,6 @@
 /**
  * Predictive action
  * Add a predictive feature to find the good movie in the TMDb database
- * @return Object Object which contains a list of movies which are similars from what we had typing
  */
 $(function(){
 var suggestions = [];
