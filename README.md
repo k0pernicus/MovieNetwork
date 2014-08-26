@@ -32,25 +32,24 @@ The developer documentation is in progress, with [jsdoc](http://usejsdoc.org/).
 TODO
 ----
 
-*	To write the developer documentation
 *	"I see objects... EVERYWHERE!"
 *	Better output PDF
 *	Drink some coke : **AGAIN, AGAIN, AGAIN, ...**
-*	Graph display with **D3JS** : **FUTURE VERSION -> DIFFICULTIES**
+*	Graph display with **D3JS** : **FUTURE VERSION -> DIFFICULTIES FOR NOW**
 
 DONE
 ----
 
-*	Design (Responsive, Parallax & beautiful) : **DONE**
-*	Database of movies : usage of themoviedb ([http://www.themoviedb.org](http://www.themoviedb.org)) -> **NEED AN API_KEY**
-*	Full forms : **DONE -> WITH PREDICTIVE SEARCH**
-*	Algorithm of similarities : usage of themoviedb + enhancement overlay -> **DONE**
-*	Display results : **LIST: DONE**
-*	Output PDF : **DONE**
-*	Ajax script to display some available movie names to the user, when typing : **DONE**
-*	Progress bar: **DONE**
-*	Perform the patch: **DONE**
-*	Addition of score for each similar movie: **DONE**
+*	Design (Responsive, Parallax & beautiful)
+*	Full forms
+*	Algorithm of similarities : usage of themoviedb + enhancement overlay
+*	Display results (List)
+*	Output PDF
+*	Predictive search
+*	Progress bar
+*	Perform the patch
+*	Addition of score for each similar movie
+*	Developer documentation
 *	Drink some coke : **FOREVER <3**
 
 License
