@@ -2,9 +2,9 @@ var interval;
 var number_similar_movies = 25;
 var results_display = null;
 var api_key = "f5dbc30b9b6055d3e85d063550790802";
-var bool_entry = false;
 var number_similar_movies_obtains = 0;
 var first_movie = new movie_object();
+//similarMoviesTab will contains the untraited data from the HTTP request (for similar movies)
 var similarMoviesTab = new Array();
 var similarMovies = new similar_movies();
 var progress_bar = null;
@@ -56,7 +56,6 @@ Reset Functions
 */
 function reset_all_variables () {
 
-	bool_entry = false;
 	number_similar_movies_obtains = 0;
 	first_movie.reset();
 	reset_all_similar_movies_variables();
@@ -392,19 +391,15 @@ function search_similar_movies (page_number) {
 
 		http_request.send(JSON.stringify(http_request.responseText));
 
-		bool_entry = false;
-
 	}
 
 }
 
 function process_all_similar_movies () {
 
-	if (similarMoviesTab != null && bool_entry == false) {
+	if (similarMoviesTab != null) {
 
 		progress_bar.evolve_progress_bar(0.50);
-
-		bool_entry = true;
 
 		reset_all_similar_movies_variables();
 
