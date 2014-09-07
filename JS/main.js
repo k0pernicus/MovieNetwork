@@ -294,7 +294,11 @@ function send_search_mdb(movie) {
 		//When it's ready, process the request and display the movie which was input.
   		if (this.readyState === 4 && http_request.status == 200) {
 		    progress_bar.evolve_progress_bar(0.10);
-		    if (process_request(eval( '('+this.responseText+')' ))) {
+		    if (first_movie.process_request_basic(eval( '('+this.responseText+')' ))) {
+		    	var crewMovie = get_overview(first_movie.id);
+				first_movie.set_overview(crewMovie.overview);
+				first_movie.set_director(get_director(crewMovie));
+				first_movie.set_collection(crewMovie.belongs_to_collection);
 		    	/*if (results_display == "List")
 					display_movie_list();*/
 				//After that, process with the similar movies
@@ -302,43 +306,14 @@ function send_search_mdb(movie) {
 				similarMoviesTab = new Array();
 				search_similar_movies(1);
 		    }
+		    else {
+		    	display_no_movie();
+				display_save_file_button(false);
+		    }
 		}
 	};
 
 	http_request.send(JSON.stringify(http_request.responseText));
-}
-
-/**
- * Function to process the JSON object, which represents the informations about the movie searched
- * @param  {JSON} tabMovie JSON object which represents the informations about the movie searched
- * @return {Boolean} True if the JSON object contains informations, False else
- */
-function process_request(tabMovie) {
-
-	if (tabMovie.results.length != 0) {
-		first_movie.set_id(tabMovie.results[0].id);
-		first_movie.set_title(tabMovie.results[0].title);
-		first_movie.set_date(tabMovie.results[0].release_date);
-		first_movie.set_path_poster(tabMovie.results[0].poster_path);
-		first_movie.set_popularity(tabMovie.results[0].popularity);
-		first_movie.set_vote_average(tabMovie.results[0].vote_average);
-		first_movie.set_vote_count(tabMovie.results[0].vote_count);
-
-		/*Get crew + overview*/
-		var crewMovie = get_overview(first_movie.id);
-		first_movie.set_overview(crewMovie.overview);
-		first_movie.set_director(get_director(crewMovie));
-		first_movie.set_collection(crewMovie.belongs_to_collection);
-
-		/*Function OK*/
-		return true;
-	}
-	else {
-		display_no_movie();
-		display_save_file_button(false);
-		return false;
-	}
-
 }
 
 /**
