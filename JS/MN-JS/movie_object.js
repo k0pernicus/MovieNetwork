@@ -209,3 +209,26 @@ movie_object.prototype.set_director = function(director) {
 movie_object.prototype.set_score = function(score) {
 	this.score = score;
 }
+
+/**
+ * Function to process the JSON object, which represents the informations about the movie searched
+ * @param  {JSON} tabMovie JSON object which represents the informations about the movie searched
+ * @return {Boolean} True if the JSON object contains informations, False else
+ */
+movie_object.prototype.process_request_basic = function(tabMovie) {
+
+	if (tabMovie.results.length != 0) {
+		this.set_id(tabMovie.results[0].id);
+		this.set_title(tabMovie.results[0].title);
+		this.set_date(tabMovie.results[0].release_date);
+		this.set_path_poster(tabMovie.results[0].poster_path);
+		this.set_popularity(tabMovie.results[0].popularity);
+		this.set_vote_average(tabMovie.results[0].vote_average);
+		this.set_vote_count(tabMovie.results[0].vote_count);
+		/*Function OK*/
+		return true;
+	}
+	else
+		return false;
+
+}
